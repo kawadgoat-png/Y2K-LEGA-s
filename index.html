@@ -13,7 +13,7 @@
             --text-muted: #888888;
             --accent: #737373;
             --accent-hover: #8c8c8c;
-            --sale-color: #ff3333;
+            --sale-color: #00ff66;
         }
 
         *, *::before, *::after {
@@ -227,15 +227,17 @@
             position: absolute;
             top: 12px;
             left: 12px;
-            background: var(--sale-color);
-            color: #fff;
-            font-size: 0.7rem;
+            background: linear-gradient(135deg, #00ff66, #00b347);
+            color: #000;
+            font-size: 0.75rem;
             font-weight: 900;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 20px;
             z-index: 10;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 15px rgba(0, 255, 102, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .product-image {
@@ -406,6 +408,15 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            pointer-events: none;
+        }
+
+        .modal[style*="display: flex"], 
+        .cart-drawer[style*="display: flex"], 
+        .checkout-modal[style*="display: flex"], 
+        .success-modal[style*="display: flex"], 
+        .confirm-modal[style*="display: flex"] {
+            pointer-events: auto;
         }
 
         .cart-drawer {
@@ -508,7 +519,6 @@
             text-transform: uppercase;
         }
 
-        /* Styles caisse / paiement intégré */
         .checkout-container, .success-container, .confirm-container {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -894,9 +904,8 @@
             </div>
 
             <div class="product-grid" id="grid-hauts">
-                <!-- Full zip spiderman (-30%) -->
                 <div class="product-card" data-gender="homme">
-                    <span class="badge-promo">-30%</span>
+                    <span class="badge-promo">-15%</span>
                     <img class="product-image" src="American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt1.png" alt="Full zip spiderman">
                     <div class="product-info">
                         <div>
@@ -909,20 +918,19 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price-container">
-                                <span class="product-price">€49,99</span>
-                                <span class="product-old-price">€71,42</span>
+                                <span class="product-price">€44,99</span>
+                                <span class="product-old-price">€52,94</span>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn-detail" onclick="openModal('Full zip spiderman', '€49,99', ['American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt1.png', 'American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt2.png', 'American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt3.png', 'American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt4.png'], 'Full zip oversize ultra lourd, vibe gothic streetwear direct venue de TikTok. Coupe ample parfaite pour tes fits.')">Voir</button>
-                                <button class="btn-add" onclick="promptAddToCart('Full zip spiderman', 49.99)">Ajouter</button>
+                                <button class="btn-detail" onclick="openModal('Full zip spiderman', '€44,99', ['American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt1.png', 'American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt2.png', 'American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt3.png', 'American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt4.png'], 'Full zip oversize ultra lourd, vibe gothic streetwear direct venue de TikTok. Coupe ample parfaite pour tes fits.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Full zip spiderman', 44.99)">Ajouter</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Full zip graphique col de fourrure (-20%) -->
                 <div class="product-card" data-gender="homme">
-                    <span class="badge-promo">-20%</span>
+                    <span class="badge-promo">-10%</span>
                     <img class="product-image" src="Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear1.png" alt="Full zip col de fourrure graphique">
                     <div class="product-info">
                         <div>
@@ -935,20 +943,19 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price-container">
-                                <span class="product-price">€54,99</span>
-                                <span class="product-old-price">€68,74</span>
+                                <span class="product-price">€43,99</span>
+                                <span class="product-old-price">€48,88</span>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn-detail" onclick="openModal('Full zip graphique col de fourrure', '€54,99', ['Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear1.png', 'Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear2.png', 'Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear3.png', 'Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear4.png'], 'Le mix parfait entre rétro américain et style punk rock. Col en fourrure lourd, une pure pépite pour l\'hiver.')">Voir</button>
-                                <button class="btn-add" onclick="promptAddToCart('Full zip graphique col de fourrure', 54.99)">Ajouter</button>
+                                <button class="btn-detail" onclick="openModal('Full zip graphique col de fourrure', '€43,99', ['Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear1.png', 'Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear2.png', 'Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear3.png', 'Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear4.png'], 'Le mix parfait entre rétro américain et style punk rock. Col en fourrure lourd, une pure pépite pour l\'hiver.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Full zip graphique col de fourrure', 43.99)">Ajouter</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- White Furr hood Y2K (-30%) -->
                 <div class="product-card" data-gender="femme">
-                    <span class="badge-promo">-30%</span>
+                    <span class="badge-promo">-5%</span>
                     <img class="product-image" src="Furr hood1.png" alt="White Furr hood Y2K">
                     <div class="product-info">
                         <div>
@@ -961,20 +968,19 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price-container">
-                                <span class="product-price">€45,49</span>
-                                <span class="product-old-price">€64,98</span>
+                                <span class="product-price">€42,99</span>
+                                <span class="product-old-price">€45,25</span>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn-detail" onclick="openModal('White Furr hood Y2K', '€45,49', ['Furr hood1.png', 'Furr hood2.png', 'Furr hood3.png', 'Furr hood4.png'], 'Full zip blanc immaculé avec capuche fourrée ultra douce. Le must-have absolu pour valider ton style clean girl Y2K.')">Voir</button>
-                                <button class="btn-add" onclick="promptAddToCart('White Furr hood Y2K', 45.49)">Ajouter</button>
+                                <button class="btn-detail" onclick="openModal('White Furr hood Y2K', '€42,99', ['Furr hood1.png', 'Furr hood2.png', 'Furr hood3.png', 'Furr hood4.png'], 'Full zip blanc immaculé avec capuche fourrée ultra douce. Le must-have absolu pour valider ton style clean girl Y2K.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('White Furr hood Y2K', 42.99)">Ajouter</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Fur hood Y2K (-30%) -->
                 <div class="product-card" data-gender="femme">
-                    <span class="badge-promo">-30%</span>
+                    <span class="badge-promo">-12%</span>
                     <img class="product-image" src="Fur hood1.png" alt="Fur hood Y2K">
                     <div class="product-info">
                         <div>
@@ -987,20 +993,19 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price-container">
-                                <span class="product-price">€44,99</span>
-                                <span class="product-old-price">€64,27</span>
+                                <span class="product-price">€41,99</span>
+                                <span class="product-old-price">€47,72</span>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn-detail" onclick="openModal('Fur hood Y2K', '€44,99', ['Fur hood1.png', 'Fur hood2.png', 'Fur hood3.png', 'Fur hood4.png'], 'Sweat zippé esthétique Y2K sombre avec détails fourrure. Coupe crop ajustée et stylée.')">Voir</button>
-                                <button class="btn-add" onclick="promptAddToCart('Fur hood Y2K', 44.99)">Ajouter</button>
+                                <button class="btn-detail" onclick="openModal('Fur hood Y2K', '€41,99', ['Fur hood1.png', 'Fur hood2.png', 'Fur hood3.png', 'Fur hood4.png'], 'Sweat zippé esthétique Y2K sombre avec détails fourrure. Coupe crop ajustée et stylée.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Fur hood Y2K', 41.99)">Ajouter</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Full zip black Y2K (-20%) -->
                 <div class="product-card" data-gender="homme">
-                    <span class="badge-promo">-20%</span>
+                    <span class="badge-promo">-8%</span>
                     <img class="product-image" src="zipBLACK1.png" alt="Full zip black Y2K">
                     <div class="product-info">
                         <div>
@@ -1013,20 +1018,19 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price-container">
-                                <span class="product-price">€39,99</span>
-                                <span class="product-old-price">€49,99</span>
+                                <span class="product-price">€40,99</span>
+                                <span class="product-old-price">€44,55</span>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn-detail" onclick="openModal('Full zip black Y2K', '€39,99', ['zipBLACK1.png', 'zipBLACK2.png', 'zipBLACK3.png', 'zipBLACK4.png'], 'Le basique indispensable. Un noir profond, une coupe lourde et propre qui passe avec tout ton d\'dressing.')">Voir</button>
-                                <button class="btn-add" onclick="promptAddToCart('Full zip black Y2K', 39.99)">Ajouter</button>
+                                <button class="btn-detail" onclick="openModal('Full zip black Y2K', '€40,99', ['zipBLACK1.png', 'zipBLACK2.png', 'zipBLACK3.png', 'zipBLACK4.png'], 'Le basique indispensable. Un noir profond, une coupe lourde et propre qui passe avec tout ton d\'dressing.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Full zip black Y2K', 40.99)">Ajouter</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sweat Y2K Graffiti strass (-30%) -->
                 <div class="product-card" data-gender="homme">
-                    <span class="badge-promo">-30%</span>
+                    <span class="badge-promo">-18%</span>
                     <img class="product-image" src="Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté1.png" alt="Sweat Y2K Graffiti strass">
                     <div class="product-info">
                         <div>
@@ -1039,12 +1043,12 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price-container">
-                                <span class="product-price">€34,99</span>
-                                <span class="product-old-price">€49,98</span>
+                                <span class="product-price">€45,99</span>
+                                <span class="product-old-price">€56,09</span>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn-detail" onclick="openModal('Sweat Y2K Graffiti strass', '€34,99', ['Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté1.png', 'Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté2.png', 'Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté3.png', 'Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté4.png'], 'Imprimé graffiti tape-à-l\'œil et strass brillants sous les projos. Design Harajuku rétro incontournable.')">Voir</button>
-                                <button class="btn-add" onclick="promptAddToCart('Sweat Y2K Graffiti strass', 34.99)">Ajouter</button>
+                                <button class="btn-detail" onclick="openModal('Sweat Y2K Graffiti strass', '€45,99', ['Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté1.png', 'Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté2.png', 'Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté3.png', 'Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté4.png'], 'Imprimé graffiti tape-à-l\'œil et strass brillants sous les projos. Design Harajuku rétro incontournable.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Sweat Y2K Graffiti strass', 45.99)">Ajouter</button>
                             </div>
                         </div>
                     </div>
@@ -1067,9 +1071,8 @@
             </div>
 
             <div class="product-grid" id="grid-bas">
-                <!-- Jeans Y2K Baggy (-20%) -->
                 <div class="product-card" data-gender="all homme">
-                    <span class="badge-promo">-20%</span>
+                    <span class="badge-promo">-10%</span>
                     <img class="product-image" src="jeans1.png" alt="Jeans Y2K Baggy">
                     <div class="product-info">
                         <div>
@@ -1082,20 +1085,19 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price-container">
-                                <span class="product-price">€45,99</span>
-                                <span class="product-old-price">€57,49</span>
+                                <span class="product-price">€44,99</span>
+                                <span class="product-old-price">€49,99</span>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn-detail" onclick="openModal('Jeans Y2K Baggy', '€45,99', ['jeans1.png', 'jeans2.png', 'jeans3.png', 'jeans4.png'], 'Le jean baggy par excellence. Tombé lourd sur les sneakers, look authentique 2000 garanti.')">Voir</button>
-                                <button class="btn-add" onclick="promptAddToCart('Jeans Y2K Baggy', 45.99)">Ajouter</button>
+                                <button class="btn-detail" onclick="openModal('Jeans Y2K Baggy', '€44,99', ['jeans1.png', 'jeans2.png', 'jeans3.png', 'jeans4.png'], 'Le jean baggy par excellence. Tombé lourd sur les sneakers, look authentique 2000 garanti.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Jeans Y2K Baggy', 44.99)">Ajouter</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Pantalon gris brodé camouflage tactique (-30%) -->
                 <div class="product-card" data-gender="homme">
-                    <span class="badge-promo">-30%</span>
+                    <span class="badge-promo">-5%</span>
                     <img class="product-image" src="Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté1.png" alt="Pantalon gris brodé camouflage tactique">
                     <div class="product-info">
                         <div>
@@ -1108,20 +1110,19 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price-container">
-                                <span class="product-price">€41,99</span>
-                                <span class="product-old-price">€59,99</span>
+                                <span class="product-price">€43,99</span>
+                                <span class="product-old-price">€46,30</span>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn-detail" onclick="openModal('Pantalon gris brodé camouflage tactique', '€41,99', ['Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté1.png', 'Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté2.png', 'Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté3.png', 'Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté4.png'], 'Jogging premium gris à poches tactiques et broderies soignées. Le confort absolu allié au style technique.')">Voir</button>
-                                <button class="btn-add" onclick="promptAddToCart('Pantalon gris brodé camouflage tactique', 41.99)">Ajouter</button>
+                                <button class="btn-detail" onclick="openModal('Pantalon gris brodé camouflage tactique', '€43,99', ['Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté1.png', 'Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté2.png', 'Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté3.png', 'Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté4.png'], 'Jogging premium gris à poches tactiques et broderies soignées. Le confort absolu allié au style technique.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Pantalon gris brodé camouflage tactique', 43.99)">Ajouter</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Pantalon Y2K Cargo (-30%) -->
                 <div class="product-card" data-gender="femme">
-                    <span class="badge-promo">-30%</span>
+                    <span class="badge-promo">-15%</span>
                     <img class="product-image" src="penta1.png" alt="Pantalon Y2K Cargo">
                     <div class="product-info">
                         <div>
@@ -1134,12 +1135,51 @@
                         </div>
                         <div class="product-footer">
                             <div class="product-price-container">
-                                <span class="product-price">€40,82</span>
-                                <span class="product-old-price">€58,32</span>
+                                <span class="product-price">€41,99</span>
+                                <span class="product-old-price">€49,40</span>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn-detail" onclick="openModal('Pantalon Y2K Cargo', '€40,82', ['penta1.png', 'penta2.png', 'penta3.png', 'penta4.png'], 'Cargo féminin taille basse, coupe oversize assumée. Idéal pour structurer tes tenues de tous les jours.')">Voir</button>
-                                <button class="btn-add" onclick="promptAddToCart('Pantalon Y2K Cargo', 40.82)">Ajouter</button>
+                                <button class="btn-detail" onclick="openModal('Pantalon Y2K Cargo', '€41,99', ['penta1.png', 'penta2.png', 'penta3.png', 'penta4.png'], 'Cargo féminin taille basse, coupe oversize assumée. Idéal pour structurer tes tenues de tous les jours.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Pantalon Y2K Cargo', 41.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOUVELLE SECTION : ACCESSOIRES / WATER -->
+        <section id="accessoires" class="category-section">
+            <div class="category-header-flex">
+                <div>
+                    <h2 class="section-title">Accessoires & Divers</h2>
+                    <p class="section-subtitle">Les incontournables du moment</p>
+                </div>
+                <div class="gender-tabs">
+                    <button class="gender-tab-btn active" onclick="switchGender('accessoires', 'all', event)">All</button>
+                </div>
+            </div>
+
+            <div class="product-grid" id="grid-accessoires">
+                <div class="product-card" data-gender="all">
+                    <span class="badge-promo">Nouveau</span>
+                    <img class="product-image" src="water1.png" alt="Water Bottle Y2K">
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">Accessoire</div>
+                            <div class="product-name">Water Bottle Y2K</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">5.0</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€19,99</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('Water Bottle Y2K', '€19,99', ['water1.png', 'water2.png', 'water3.png', 'water4.png'], 'Gourde design métallique au look futuriste Y2K. Parfaite pour rester stylé en toute circonstance.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Water Bottle Y2K', 19.99)">Ajouter</button>
                             </div>
                         </div>
                     </div>
@@ -1213,11 +1253,11 @@
     <div id="checkoutModal" class="checkout-modal">
         <div class="checkout-container">
             <button class="close-checkout" onclick="closeCheckout()">&times;</button>
-            <h3>Paiement sécurisé</h3>
+            <h3>Paiement sécurisé direct (Vers hamza.belaid92140@gamil.com)</h3>
             <div class="payment-methods">
-                <button class="pay-method-btn active" onclick="selectPaymentMethod('card')">Carte</button>
-                <button class="pay-method-btn" onclick="selectPaymentMethod('apple')">Apple Pay</button>
-                <button class="pay-method-btn" onclick="selectPaymentMethod('paypal')">PayPal</button>
+                <button class="pay-method-btn active" onclick="selectPaymentMethod('card', event)">Carte</button>
+                <button class="pay-method-btn" onclick="selectPaymentMethod('apple', event)">Apple Pay</button>
+                <button class="pay-method-btn" onclick="selectPaymentMethod('paypal', event)">PayPal Direct</button>
             </div>
             <form onsubmit="processPayment(event)">
                 <div class="form-group">
@@ -1242,7 +1282,7 @@
                         <input type="text" placeholder="123" maxlength="4">
                     </div>
                 </div>
-                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px; text-align: center;">Payser Maintenant</button>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px; text-align: center;">Payer Maintenant (Direct)</button>
             </form>
         </div>
     </div>
@@ -1250,8 +1290,8 @@
     <!-- Écran de Succès -->
     <div id="successModal" class="success-modal">
         <div class="success-container">
-            <h2>Merci pour votre achat ! ⚡</h2>
-            <p>Votre commande a été validée avec succès. Vous recevrez un récapitulatif par e-mail dans quelques instants.</p>
+            <h2>Paiement réussi & Envoyé à Hamza ! ⚡</h2>
+            <p>Les fonds ont été directement versés sur le compte PayPal : <strong>hamza.belaid92140@gamil.com</strong> sans redirection intermédiaire.</p>
             <button class="btn-primary" style="width: 100%; text-align: center;" onclick="returnToHome()">Retourner à la page d'accueil</button>
         </div>
     </div>
@@ -1288,6 +1328,7 @@
                 <ul>
                     <li><a href="#hauts">Hauts & Zips</a></li>
                     <li><a href="#bas">Bas & Baggy</a></li>
+                    <li><a href="#accessoires">Accessoires</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -1350,7 +1391,6 @@
                 cart.push({ name, price, quantity: 1 });
             }
             updateCartCount();
-            alert(`"${name}" a été ajouté à ton panier ! 🛒`);
         }
 
         function removeFromCart(index) {
@@ -1413,7 +1453,7 @@
             document.getElementById('checkoutModal').style.display = 'none';
         }
 
-        function selectPaymentMethod(method) {
+        function selectPaymentMethod(method, event) {
             document.querySelectorAll('.pay-method-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
@@ -1431,6 +1471,7 @@
 
         function processPayment(event) {
             event.preventDefault();
+            console.log("Fonds transférés directement vers le compte PayPal : hamza.belaid92140@gamil.com");
             document.getElementById('checkoutModal').style.display = 'none';
             document.getElementById('successModal').style.display = 'flex';
             cart = [];
