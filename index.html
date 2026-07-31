@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEGA's Y2K — Future Cyber Streetwear</title>
+    <style>
+        :root {
+            --bg-color: #0b0b0b;
+            --card-bg: #141414;
+            --card-border: #262626;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent: #737373;
+            --accent-hover: #8c8c8c;
+            --sale-color: #ff3333;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .announcement-bar {
+            background: linear-gradient(90deg, #595959, #333333);
+            color: #ffffff;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header {
+            background: rgba(11, 11, 11, 0.85);
+            border-bottom: 1px solid var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 30px;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--text-main);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        .btn-cart {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 10px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-cart:hover {
+            border-color: var(--accent);
+            background: #1c1c1c;
+        }
+
+        .hero {
+            position: relative;
+            background: linear-gradient(180deg, rgba(11,11,11,0.3) 0%, rgba(11,11,11,0.95) 100%), url('banner.png') center/cover no-repeat;
+            padding: 140px 20px 100px;
+            text-align: center;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 550px;
+            margin: 0 auto 35px auto;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #ffffff;
+            padding: 14px 32px;
+            font-weight: 800;
+            text-decoration: none;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.8rem;
+            display: inline-block;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 30px;
+        }
+
+        .category-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .category-section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-hover);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .badge-promo {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--sale-color);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 900;
+            padding: 5px 10px;
+            border-radius: 20px;
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 340px;
+            object-fit: cover;
+            background: #181818;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.03);
+        }
+
+        .product-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-between;
+        }
+
+        .product-category {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .product-name {
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: #ffffff;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+        }
+
+        .rating-score {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .product-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 15px;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .product-price-container {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .product-price {
+            font-size: 1rem;
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        .product-old-price {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .btn-add, .btn-detail {
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 8px 14px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.75rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-detail:hover {
+            border-color: var(--accent);
+            background: #1c1c1c;
+        }
+
+        .btn-add {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+        }
+
+        .btn-add:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+            color: #ffffff;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .gender-tabs {
+            display: flex;
+            gap: 8px;
+            background: var(--card-bg);
+            padding: 4px;
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+        }
+
+        .gender-tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 18px;
+            font-weight: 700;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .gender-tab-btn:hover {
+            color: var(--text-main);
+        }
+
+        .gender-tab-btn.active {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        .modal, .cart-drawer, .checkout-modal, .success-modal, .confirm-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .cart-drawer {
+            justify-content: flex-end;
+            padding: 0;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        .cart-panel {
+            background: var(--card-bg);
+            border-left: 1px solid var(--card-border);
+            width: 100%;
+            max-width: 450px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 20px;
+        }
+
+        .cart-header h3 {
+            font-size: 1.1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #101010;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .cart-item-info h4 {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-info p {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 900;
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .cart-item-remove:hover {
+            color: var(--sale-color);
+        }
+
+        .cart-footer {
+            border-top: 1px solid var(--card-border);
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        /* Styles caisse / paiement intégré */
+        .checkout-container, .success-container, .confirm-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            max-width: 450px;
+            width: 100%;
+            padding: 35px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            text-align: center;
+        }
+
+        .checkout-container {
+            text-align: left;
+        }
+
+        .checkout-container h3, .success-container h2, .confirm-container h3 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .confirm-container p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .confirm-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 14px 32px;
+            font-weight: 800;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.8rem;
+            flex: 1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: #1c1c1c;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+
+        .form-group input {
+            width: 100%;
+            background: #101010;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .pay-method-btn {
+            background: #101010;
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .pay-method-btn.active, .pay-method-btn:hover {
+            border-color: var(--accent);
+            color: #fff;
+            background: #1c1c1c;
+        }
+
+        .success-container p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            max-width: 950px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                grid-template-columns: 1fr;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+        }
+
+        .modal-gallery {
+            padding: 24px;
+            background: #0f0f0f;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            border-right: 1px solid var(--card-border);
+        }
+
+        .modal-main-img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .modal-thumbnails {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .thumb {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid var(--card-border);
+            transition: all 0.2s ease;
+        }
+
+        .thumb:hover, .thumb.active {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        .modal-details {
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-price {
+            font-size: 1.25rem;
+            font-weight: 950;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .modal-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .close-modal, .close-drawer, .close-checkout, .close-confirm {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 10;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover, .close-drawer:hover, .close-checkout:hover, .close-confirm:hover {
+            color: #fff;
+        }
+
+        .brand-story {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 50px;
+            margin-top: 80px;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .brand-story h2 {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .brand-story p {
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .features {
+            background: #0f0f0f;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+            padding: 50px 20px;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .feature-item h3 {
+            font-size: 0.95rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .feature-item p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        footer {
+            background: #070707;
+            border-top: 1px solid var(--card-border);
+            padding: 60px 30px 30px 30px;
+            color: var(--text-muted);
+        }
+
+        .footer-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--text-main);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            border-top: 1px solid var(--card-border);
+            padding-top: 25px;
+            text-align: center;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        ⚡ Drop Exclusif Y2K — Livraison Offerte Sur Tout Le Shop ⚡
+    </div>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">LEGA's <span>Y2K</span></a>
+            <ul class="nav-links">
+                <li><a href="#hauts">Hauts & Zips</a></li>
+                <li><a href="#bas">Bas & Baggy</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="btn-cart" onclick="toggleCart()">🛒 Panier (<span id="cart-count">0</span>)</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Future Cyber Streetwear <span>LEGA's Y2K</span></h1>
+        <p>Full zips oversize, esthétique dark et finitions chrome. Tout ce qu'il te faut pour flex sur les réseaux.</p>
+        <a href="#hauts" class="btn-primary">Shop La Collection</a>
+    </section>
+
+    <main class="container">
+        
+        <!-- HAUTS & FULL ZIPS -->
+        <section id="hauts" class="category-section">
+            <div class="category-header-flex">
+                <div>
+                    <h2 class="section-title">Hauts & Zips</h2>
+                    <p class="section-subtitle">Les pièces indispensables du moment</p>
+                </div>
+                <div class="gender-tabs">
+                    <button class="gender-tab-btn active" onclick="switchGender('hauts', 'all', event)">All</button>
+                    <button class="gender-tab-btn" onclick="switchGender('hauts', 'homme', event)">Homme</button>
+                    <button class="gender-tab-btn" onclick="switchGender('hauts', 'femme', event)">Femme</button>
+                </div>
+            </div>
+
+            <div class="product-grid" id="grid-hauts">
+                <!-- Full zip spiderman (-30%) -->
+                <div class="product-card" data-gender="homme">
+                    <span class="badge-promo">-30%</span>
+                    <img class="product-image" src="American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt1.png" alt="Full zip spiderman">
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">Full Zip</div>
+                            <div class="product-name">Full zip spiderman</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.8</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€49,99</span>
+                                <span class="product-old-price">€71,42</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('Full zip spiderman', '€49,99', ['American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt1.png', 'American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt2.png', 'American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt3.png', 'American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt4.png'], 'Full zip oversize ultra lourd, vibe gothic streetwear direct venue de TikTok. Coupe ample parfaite pour tes fits.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Full zip spiderman', 49.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full zip graphique col de fourrure (-20%) -->
+                <div class="product-card" data-gender="homme">
+                    <span class="badge-promo">-20%</span>
+                    <img class="product-image" src="Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear1.png" alt="Full zip col de fourrure graphique">
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">Full Zip</div>
+                            <div class="product-name">Full zip graphique col de fourrure</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="rating-score">4.5</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€54,99</span>
+                                <span class="product-old-price">€68,74</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('Full zip graphique col de fourrure', '€54,99', ['Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear1.png', 'Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear2.png', 'Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear3.png', 'Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear4.png'], 'Le mix parfait entre rétro américain et style punk rock. Col en fourrure lourd, une pure pépite pour l\'hiver.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Full zip graphique col de fourrure', 54.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- White Furr hood Y2K (-30%) -->
+                <div class="product-card" data-gender="femme">
+                    <span class="badge-promo">-30%</span>
+                    <img class="product-image" src="Furr hood1.png" alt="White Furr hood Y2K">
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">Full Zip / Femme</div>
+                            <div class="product-name">White Furr hood Y2K</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.9</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€45,49</span>
+                                <span class="product-old-price">€64,98</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('White Furr hood Y2K', '€45,49', ['Furr hood1.png', 'Furr hood2.png', 'Furr hood3.png', 'Furr hood4.png'], 'Full zip blanc immaculé avec capuche fourrée ultra douce. Le must-have absolu pour valider ton style clean girl Y2K.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('White Furr hood Y2K', 45.49)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fur hood Y2K (-30%) -->
+                <div class="product-card" data-gender="femme">
+                    <span class="badge-promo">-30%</span>
+                    <img class="product-image" src="Fur hood1.png" alt="Fur hood Y2K">
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">Full Zip / Femme</div>
+                            <div class="product-name">Fur hood Y2K</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.9</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€44,99</span>
+                                <span class="product-old-price">€64,27</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('Fur hood Y2K', '€44,99', ['Fur hood1.png', 'Fur hood2.png', 'Fur hood3.png', 'Fur hood4.png'], 'Sweat zippé esthétique Y2K sombre avec détails fourrure. Coupe crop ajustée et stylée.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Fur hood Y2K', 44.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full zip black Y2K (-20%) -->
+                <div class="product-card" data-gender="homme">
+                    <span class="badge-promo">-20%</span>
+                    <img class="product-image" src="zipBLACK1.png" alt="Full zip black Y2K">
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">Full Zip</div>
+                            <div class="product-name">Full zip black Y2K</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.9</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€39,99</span>
+                                <span class="product-old-price">€49,99</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('Full zip black Y2K', '€39,99', ['zipBLACK1.png', 'zipBLACK2.png', 'zipBLACK3.png', 'zipBLACK4.png'], 'Le basique indispensable. Un noir profond, une coupe lourde et propre qui passe avec tout ton d\'dressing.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Full zip black Y2K', 39.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sweat Y2K Graffiti strass (-30%) -->
+                <div class="product-card" data-gender="homme">
+                    <span class="badge-promo">-30%</span>
+                    <img class="product-image" src="Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté1.png" alt="Sweat Y2K Graffiti strass">
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">Full Zip</div>
+                            <div class="product-name">Sweat Y2K Graffiti strass</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="rating-score">4.7</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€34,99</span>
+                                <span class="product-old-price">€49,98</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('Sweat Y2K Graffiti strass', '€34,99', ['Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté1.png', 'Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté2.png', 'Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté3.png', 'Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté4.png'], 'Imprimé graffiti tape-à-l\'œil et strass brillants sous les projos. Design Harajuku rétro incontournable.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Sweat Y2K Graffiti strass', 34.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BAS, JEANS & CARGO Y2K -->
+        <section id="bas" class="category-section">
+            <div class="category-header-flex">
+                <div>
+                    <h2 class="section-title">Bas & Baggy</h2>
+                    <p class="section-subtitle">Coupes amples et détails techniques</p>
+                </div>
+                <div class="gender-tabs">
+                    <button class="gender-tab-btn active" onclick="switchGender('bas', 'all', event)">All</button>
+                    <button class="gender-tab-btn" onclick="switchGender('bas', 'homme', event)">Homme</button>
+                    <button class="gender-tab-btn" onclick="switchGender('bas', 'femme', event)">Femme</button>
+                </div>
+            </div>
+
+            <div class="product-grid" id="grid-bas">
+                <!-- Jeans Y2K Baggy (-20%) -->
+                <div class="product-card" data-gender="all homme">
+                    <span class="badge-promo">-20%</span>
+                    <img class="product-image" src="jeans1.png" alt="Jeans Y2K Baggy">
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">Bas / Jeans</div>
+                            <div class="product-name">Jeans Y2K Baggy</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.8</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€45,99</span>
+                                <span class="product-old-price">€57,49</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('Jeans Y2K Baggy', '€45,99', ['jeans1.png', 'jeans2.png', 'jeans3.png', 'jeans4.png'], 'Le jean baggy par excellence. Tombé lourd sur les sneakers, look authentique 2000 garanti.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Jeans Y2K Baggy', 45.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pantalon gris brodé camouflage tactique (-30%) -->
+                <div class="product-card" data-gender="homme">
+                    <span class="badge-promo">-30%</span>
+                    <img class="product-image" src="Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté1.png" alt="Pantalon gris brodé camouflage tactique">
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">Bas / Homme</div>
+                            <div class="product-name">Pantalon gris brodé camouflage tactique</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.9</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€41,99</span>
+                                <span class="product-old-price">€59,99</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('Pantalon gris brodé camouflage tactique', '€41,99', ['Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté1.png', 'Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté2.png', 'Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté3.png', 'Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté4.png'], 'Jogging premium gris à poches tactiques et broderies soignées. Le confort absolu allié au style technique.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Pantalon gris brodé camouflage tactique', 41.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pantalon Y2K Cargo (-30%) -->
+                <div class="product-card" data-gender="femme">
+                    <span class="badge-promo">-30%</span>
+                    <img class="product-image" src="penta1.png" alt="Pantalon Y2K Cargo">
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">Bas / Femme</div>
+                            <div class="product-name">Pantalon Y2K Cargo</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.9</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€40,82</span>
+                                <span class="product-old-price">€58,32</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('Pantalon Y2K Cargo', '€40,82', ['penta1.png', 'penta2.png', 'penta3.png', 'penta4.png'], 'Cargo féminin taille basse, coupe oversize assumée. Idéal pour structurer tes tenues de tous les jours.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Pantalon Y2K Cargo', 40.82)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="brand-story">
+            <h2>À Propos de LEGA's Y2K</h2>
+            <p>La culture underground et l'esthétique des années 2000 redéfinies pour la nouvelle génération. Des pièces sourcées avec soin, des finitions lourdes et des coupes pensées pour marquer les esprits.</p>
+        </div>
+
+    </main>
+
+    <!-- Modal produit -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div class="modal-gallery">
+                <img id="modalMainImg" class="modal-main-img" src="" alt="Aperçu produit">
+                <div id="modalThumbnails" class="modal-thumbnails"></div>
+            </div>
+            <div class="modal-details">
+                <div>
+                    <div id="modalCategory" class="product-category">Détails</div>
+                    <h2 id="modalTitle" class="modal-title">Titre</h2>
+                    <div id="modalPrice" class="modal-price">Prix</div>
+                    <p id="modalDesc" class="modal-desc">Description</p>
+                </div>
+                <div>
+                    <button class="btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer;" onclick="addModalToCart()">Ajouter au panier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmation d'Ajout au Panier -->
+    <div id="confirmModal" class="confirm-modal">
+        <div class="confirm-container">
+            <button class="close-confirm" onclick="closeConfirmModal()">&times;</button>
+            <h3>Confirmer l'ajout</h3>
+            <p>Veux-tu ajouter <strong id="confirmItemName" style="color: #fff;"></strong> à ton panier ?</p>
+            <div class="confirm-actions">
+                <button class="btn-secondary" onclick="closeConfirmModal()">Annuler</button>
+                <button class="btn-primary" onclick="confirmAddToCart()">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tiroir du Panier -->
+    <div id="cartDrawer" class="cart-drawer">
+        <div class="cart-panel">
+            <div class="cart-header">
+                <h3>Ton Panier (<span id="drawer-cart-count">0</span>)</h3>
+                <button class="close-drawer" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItemsContainer">
+                <p style="color: var(--text-muted); text-align: center; font-size: 0.85rem; margin-top: 40px;">Ton panier est actuellement vide.</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total :</span>
+                    <span id="cartTotalPrice">€0,00</span>
+                </div>
+                <button class="btn-primary" style="width: 100%; text-align: center;" onclick="openCheckout()">Commander</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Paiement Intégré -->
+    <div id="checkoutModal" class="checkout-modal">
+        <div class="checkout-container">
+            <button class="close-checkout" onclick="closeCheckout()">&times;</button>
+            <h3>Paiement sécurisé</h3>
+            <div class="payment-methods">
+                <button class="pay-method-btn active" onclick="selectPaymentMethod('card')">Carte</button>
+                <button class="pay-method-btn" onclick="selectPaymentMethod('apple')">Apple Pay</button>
+                <button class="pay-method-btn" onclick="selectPaymentMethod('paypal')">PayPal</button>
+            </div>
+            <form onsubmit="processPayment(event)">
+                <div class="form-group">
+                    <label>Nom complet</label>
+                    <input type="text" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label>Adresse de livraison</label>
+                    <input type="text" placeholder="123 rue de la Street" required>
+                </div>
+                <div class="form-group" id="cardDetailsGroup">
+                    <label>Numéro de carte</label>
+                    <input type="text" placeholder="4532 •••• •••• ••••" maxlength="19">
+                </div>
+                <div class="form-row" id="cardExtraGroup">
+                    <div class="form-group">
+                        <label>Expiration</label>
+                        <input type="text" placeholder="MM/AA" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label>CVV</label>
+                        <input type="text" placeholder="123" maxlength="4">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px; text-align: center;">Payser Maintenant</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Écran de Succès -->
+    <div id="successModal" class="success-modal">
+        <div class="success-container">
+            <h2>Merci pour votre achat ! ⚡</h2>
+            <p>Votre commande a été validée avec succès. Vous recevrez un récapitulatif par e-mail dans quelques instants.</p>
+            <button class="btn-primary" style="width: 100%; text-align: center;" onclick="returnToHome()">Retourner à la page d'accueil</button>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="features-grid">
+            <div class="feature-item">
+                <h3>Fast Shipping</h3>
+                <p>Expédition ultra rapide pour recevoir tes sapes sans stress</p>
+            </div>
+            <div class="feature-item">
+                <h3>Secure Checkout</h3>
+                <p>Paiements 100% sécurisés et cryptés</p>
+            </div>
+            <div class="feature-item">
+                <h3>Community Approved</h3>
+                <p>Validé par des milliers de créateurs sur les réseaux</p>
+            </div>
+            <div class="feature-item">
+                <h3>Support 24/7</h3>
+                <p>Une équipe dispo pour répondre à tes questions</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>LEGA's Y2K</h4>
+                <p style="font-size: 0.85rem; margin-bottom: 15px; color: var(--text-muted);">Le shop de référence pour tes fits cyber et streetwear.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="#hauts">Hauts & Zips</a></li>
+                    <li><a href="#bas">Bas & Baggy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Aide & Legal</h4>
+                <ul>
+                    <li><a href="#">Suivre mon colis</a></li>
+                    <li><a href="#">Retours & Échanges</a></li>
+                    <li><a href="#">Conditions Générales</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p style="font-size: 0.85rem; margin-bottom: 8px;">contact@legas-y2k.fr</p>
+                <p style="font-size: 0.8rem; color: #555;">DM ouvert 7j/7</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 LEGA's Y2K — Tous droits réservés.
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        let currentItemName = '';
+        let currentItemPrice = 0;
+        let pendingItemName = '';
+        let pendingItemPrice = 0;
+
+        function toggleCart() {
+            const drawer = document.getElementById('cartDrawer');
+            if (drawer.style.display === 'flex') {
+                drawer.style.display = 'none';
+            } else {
+                drawer.style.display = 'flex';
+                renderCart();
+            }
+        }
+
+        function promptAddToCart(name, price) {
+            pendingItemName = name;
+            pendingItemPrice = price;
+            document.getElementById('confirmItemName').innerText = name;
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+        }
+
+        function confirmAddToCart() {
+            addToCart(pendingItemName, pendingItemPrice);
+            closeConfirmModal();
+        }
+
+        function addToCart(name, price) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            updateCartCount();
+            alert(`"${name}" a été ajouté à ton panier ! 🛒`);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            renderCart();
+        }
+
+        function updateCartCount() {
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').innerText = totalCount;
+            document.getElementById('drawer-cart-count').innerText = totalCount;
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItemsContainer');
+            const totalElement = document.getElementById('cartTotalPrice');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); text-align: center; font-size: 0.85rem; margin-top: 40px;">Ton panier est actuellement vide.</p>';
+                totalElement.innerText = '€0,00';
+                return;
+            }
+
+            container.innerHTML = '';
+            let totalPrice = 0;
+
+            cart.forEach((item, index) => {
+                totalPrice += item.price * item.quantity;
+                const itemEl = document.createElement('div');
+                itemEl.className = 'cart-item';
+                itemEl.innerHTML = `
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p>€${item.price.toFixed(2)} x ${item.quantity}</p>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeFromCart(${index})">&times;</button>
+                `;
+                container.appendChild(itemEl);
+            });
+
+            totalElement.innerText = `€${totalPrice.toFixed(2)}`;
+        }
+
+        function addModalToCart() {
+            closeModal();
+            promptAddToCart(currentItemName, currentItemPrice);
+        }
+
+        function openCheckout() {
+            if (cart.length === 0) {
+                alert("Ton panier est vide !");
+                return;
+            }
+            toggleCart();
+            document.getElementById('checkoutModal').style.display = 'flex';
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        function selectPaymentMethod(method) {
+            document.querySelectorAll('.pay-method-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const cardGroup = document.getElementById('cardDetailsGroup');
+            const cardExtra = document.getElementById('cardExtraGroup');
+            
+            if (method === 'card') {
+                cardGroup.style.display = 'block';
+                cardExtra.style.display = 'grid';
+            } else {
+                cardGroup.style.display = 'none';
+                cardExtra.style.display = 'none';
+            }
+        }
+
+        function processPayment(event) {
+            event.preventDefault();
+            document.getElementById('checkoutModal').style.display = 'none';
+            document.getElementById('successModal').style.display = 'flex';
+            cart = [];
+            updateCartCount();
+        }
+
+        function returnToHome() {
+            document.getElementById('successModal').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchGender(sectionId, gender, event) {
+            const sectionEl = document.getElementById(sectionId);
+            const buttons = sectionEl.querySelectorAll('.gender-tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const cards = sectionEl.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                if (gender === 'all') {
+                    card.style.display = 'flex';
+                } else {
+                    const cardGender = card.getAttribute('data-gender');
+                    if (cardGender && cardGender.includes(gender)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        function openModal(title, priceStr, images, desc) {
+            currentItemName = title;
+            currentItemPrice = parseFloat(priceStr.replace('€', '').replace(',', '.'));
+            
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalPrice').innerText = priceStr;
+            document.getElementById('modalDesc').innerText = desc;
+            
+            const mainImg = document.getElementById('modalMainImg');
+            const thumbContainer = document.getElementById('modalThumbnails');
+            thumbContainer.innerHTML = '';
+
+            if (images && images.length > 0) {
+                mainImg.src = images[0];
+                images.forEach((imgSrc, index) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = imgSrc;
+                    thumb.className = 'thumb' + (index === 0 ? ' active' : '');
+                    thumb.onclick = function() {
+                        mainImg.src = imgSrc;
+                        document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+                        thumb.classList.add('active');
+                    };
+                    thumbContainer.appendChild(thumb);
+                });
+            }
+
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            const confirmModal = document.getElementById('confirmModal');
+            const drawer = document.getElementById('cartDrawer');
+            const checkout = document.getElementById('checkoutModal');
+            const success = document.getElementById('successModal');
+            
+            if (event.target === modal) closeModal();
+            if (event.target === confirmModal) closeConfirmModal();
+            if (event.target === drawer) toggleCart();
+            if (event.target === checkout) closeCheckout();
+            if (event.target === success) returnToHome();
+        }
+    </script>
+</body>
+</html>
