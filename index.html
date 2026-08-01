@@ -10,7 +10,6 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            // Remplace "YOUR_PUBLIC_KEY" par ta clé publique EmailJS (disponible sur ton compte emailjs.com)
             emailjs.init("YOUR_PUBLIC_KEY");
         })();
     </script>
@@ -22,7 +21,7 @@
             --text-main: #ffffff;
             --text-muted: #888888;
             --accent: #737373;
-            --accent-hover: #a6a6a6; /* Éclairci pour le survol global des boutons */
+            --accent-hover: #a6a6a6;
             --sale-color: #00ff66;
         }
 
@@ -96,6 +95,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: color 0.2s ease;
+            cursor: pointer;
         }
 
         .nav-links a:hover {
@@ -166,6 +166,7 @@
             transition: all 0.2s ease;
             border: none;
             cursor: pointer;
+            text-align: center;
         }
 
         .btn-primary:hover {
@@ -250,16 +251,50 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .product-image {
+        .product-image-container {
+            position: relative;
             width: 100%;
             height: 340px;
-            object-fit: cover;
             background: #181818;
-            transition: transform 0.5s ease;
+            overflow: hidden;
         }
 
-        .product-card:hover .product-image {
-            transform: scale(1.03);
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-img {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 5;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 4px 8px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .carousel-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: #ffffff;
+            width: 16px;
+            border-radius: 4px;
         }
 
         .product-info {
@@ -406,11 +441,7 @@
             color: #ffffff;
         }
 
-        .gender-tab-btn.active:hover {
-            background: var(--accent-hover);
-        }
-
-        .modal, .cart-drawer, .checkout-modal, .success-modal, .confirm-modal {
+        .modal, .cart-drawer, .checkout-modal, .success-modal, .confirm-modal, .policy-modal {
             display: none;
             position: fixed;
             z-index: 2000;
@@ -430,7 +461,8 @@
         .cart-drawer[style*="display: flex"], 
         .checkout-modal[style*="display: flex"], 
         .success-modal[style*="display: flex"], 
-        .confirm-modal[style*="display: flex"] {
+        .confirm-modal[style*="display: flex"],
+        .policy-modal[style*="display: flex"] {
             pointer-events: auto;
         }
 
@@ -500,6 +532,12 @@
         }
 
         .cart-item-info p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .cart-item-info .cart-price-tag {
             font-size: 0.8rem;
             color: var(--accent);
             font-weight: 900;
@@ -534,7 +572,7 @@
             text-transform: uppercase;
         }
 
-        .checkout-container, .success-container, .confirm-container {
+        .checkout-container, .success-container, .confirm-container, .policy-container {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 16px;
@@ -546,11 +584,37 @@
             text-align: center;
         }
 
+        .policy-container {
+            max-width: 650px;
+            text-align: left;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .policy-body {
+            overflow-y: auto;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            padding-right: 5px;
+        }
+
+        .policy-body h4 {
+            color: var(--text-main);
+            margin-top: 12px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
         .checkout-container {
             text-align: left;
         }
 
-        .checkout-container h3, .success-container h2, .confirm-container h3 {
+        .checkout-container h3, .success-container h2, .confirm-container h3, .policy-container h3 {
             font-size: 1.25rem;
             font-weight: 900;
             text-transform: uppercase;
@@ -562,7 +626,50 @@
         .confirm-container p {
             color: var(--text-muted);
             font-size: 0.9rem;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+        }
+
+        .size-selector {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .size-selector label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 800;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .size-btn {
+            flex: 1;
+            background: #181818;
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 10px 0;
+            font-weight: 800;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .size-btn:hover {
+            border-color: var(--accent-hover);
+        }
+
+        .size-btn.selected {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
         }
 
         .confirm-actions {
@@ -686,7 +793,7 @@
             line-height: 1.6;
         }
 
-        .close-modal, .close-drawer, .close-checkout, .close-confirm {
+        .close-modal, .close-drawer, .close-checkout, .close-confirm, .close-policy {
             position: absolute;
             top: 15px;
             right: 20px;
@@ -699,7 +806,7 @@
             transition: color 0.2s;
         }
 
-        .close-modal:hover, .close-drawer:hover, .close-checkout:hover, .close-confirm:hover {
+        .close-modal:hover, .close-drawer:hover, .close-checkout:hover, .close-confirm:hover, .close-policy:hover {
             color: #fff;
         }
 
@@ -798,6 +905,7 @@
             transition: color 0.2s ease;
             font-size: 0.85rem;
             font-weight: 500;
+            cursor: pointer;
         }
 
         .footer-col ul li a:hover {
@@ -839,11 +947,11 @@
         #cart-notification.show {
             opacity: 1;
             transform: translateY(0);
-            pointer-events: auto; /* Permet le clic uniquement quand affiché */
+            pointer-events: auto;
         }
 
         #cart-notification:hover {
-            background-color: #33ff85; /* S'éclaire au survol */
+            background-color: #33ff85;
         }
     </style>
 </head>
@@ -853,7 +961,6 @@
         ⚡ Drop Exclusif Y2K — Livraison Offerte Sur Tout Le Shop ⚡
     </div>
 
-    <!-- Notification cliquable reliée à openNotificationCart() -->
     <div id="cart-notification" onclick="openNotificationCart()">Article ajouté au panier ! (Voir)</div>
 
     <header>
@@ -861,7 +968,9 @@
             <a href="#" class="logo">LEGA's <span>Y2K</span></a>
             <ul class="nav-links">
                 <li><a href="#hauts">Hauts & Zips</a></li>
+                <li><a href="#tshirts">T-Shirts</a></li>
                 <li><a href="#bas">Bas & Baggy</a></li>
+                <li><a onclick="openPolicyModal()">Politique & CGV</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="btn-cart" onclick="toggleCart()">🛒 Panier (<span id="cart-count">0</span>)</button>
@@ -892,10 +1001,12 @@
             </div>
 
             <div class="product-grid" id="grid-hauts">
-                <!-- PRODUIT UNIQUE : Full zip black classique Y2K -->
+                <!-- PRODUIT 1 -->
                 <div class="product-card" data-gender="homme unisex">
                     <span class="badge-promo">-15%</span>
-                    <img class="product-image" src="zipBLACK1.png" alt="Full zip black Y2K classique">
+                    <div class="product-image-container">
+                        <img class="product-image slider-img" data-images='["zipBLACK1.png", "zipBLACK2.png", "zipBLACK3.png", "zipBLACK4.png"]' src="zipBLACK1.png" alt="Full zip black Y2K classique">
+                    </div>
                     <div class="product-info">
                         <div>
                             <div class="product-category">Full Zip</div>
@@ -918,9 +1029,12 @@
                     </div>
                 </div>
 
+                <!-- PRODUIT 2 -->
                 <div class="product-card" data-gender="homme">
                     <span class="badge-promo">-15%</span>
-                    <img class="product-image" src="American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt1.png" alt="Full zip spiderman">
+                    <div class="product-image-container">
+                        <img class="product-image slider-img" data-images='["American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt1.png", "American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt2.png", "American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt3.png", "American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt4.png"]' src="American Classic Gothic Red Spider Sweat à capuche imprimé Cardigan Full Full Full Loose Hip Hop Hoodie Veste Y2K Strt Sweatshirt1.png" alt="Full zip spiderman">
+                    </div>
                     <div class="product-info">
                         <div>
                             <div class="product-category">Full Zip</div>
@@ -943,9 +1057,12 @@
                     </div>
                 </div>
 
+                <!-- PRODUIT 3 -->
                 <div class="product-card" data-gender="homme">
                     <span class="badge-promo">-10%</span>
-                    <img class="product-image" src="Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear1.png" alt="Full zip col de fourrure graphique">
+                    <div class="product-image-container">
+                        <img class="product-image slider-img" data-images='["Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear1.png", "Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear2.png", "Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear3.png", "Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear4.png"]' src="Y2K Nouveau Américain Rétro Rock Gothique Graphique Col De Fourrure Lâche Sweat À Fermeture Éclair Hommes Harajuku Punk Casual Joker À Capuche Strtwear1.png" alt="Full zip graphique col de fourrure">
+                    </div>
                     <div class="product-info">
                         <div>
                             <div class="product-category">Full Zip</div>
@@ -968,9 +1085,12 @@
                     </div>
                 </div>
 
+                <!-- PRODUIT 4 -->
                 <div class="product-card" data-gender="femme">
                     <span class="badge-promo">-5%</span>
-                    <img class="product-image" src="Furr hood1.png" alt="White fur hood zip Y2K">
+                    <div class="product-image-container">
+                        <img class="product-image slider-img" data-images='["Furr hood1.png", "Furr hood2.png", "Furr hood3.png", "Furr hood4.png"]' src="Furr hood1.png" alt="White fur hood zip Y2K">
+                    </div>
                     <div class="product-info">
                         <div>
                             <div class="product-category">Full Zip / Femme</div>
@@ -993,9 +1113,12 @@
                     </div>
                 </div>
 
+                <!-- PRODUIT 5 -->
                 <div class="product-card" data-gender="femme">
                     <span class="badge-promo">-12%</span>
-                    <img class="product-image" src="Fur hood1.png" alt="Fur hood Y2K">
+                    <div class="product-image-container">
+                        <img class="product-image slider-img" data-images='["Fur hood1.png", "Fur hood2.png", "Fur hood3.png", "Fur hood4.png"]' src="Fur hood1.png" alt="Fur hood Y2K">
+                    </div>
                     <div class="product-info">
                         <div>
                             <div class="product-category">Full Zip / Femme</div>
@@ -1018,9 +1141,12 @@
                     </div>
                 </div>
 
+                <!-- PRODUIT 6 -->
                 <div class="product-card" data-gender="homme">
                     <span class="badge-promo">-18%</span>
-                    <img class="product-image" src="Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté1.png" alt="Sweat Y2K Graffiti strass">
+                    <div class="product-image-container">
+                        <img class="product-image slider-img" data-images='["Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté1.png", "Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté2.png", "Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté3.png", "Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté4.png"]' src="Sweats à capuche de créateur pour hommes femmes Y2K Graffiti strass imprimé sweat à capuche zippé Harajuku Streetwear rétro vêtements de sport haut décontracté1.png" alt="Sweat Y2K Graffiti strass">
+                    </div>
                     <div class="product-info">
                         <div>
                             <div class="product-category">Full Zip</div>
@@ -1045,6 +1171,499 @@
             </div>
         </section>
 
+        <!-- NOUVELLE CATÉGORIE : T-SHIRTS HAUTS HOMMES FEMMES -->
+        <section id="tshirts" class="category-section">
+            <div class="category-header-flex">
+                <div>
+                    <h2 class="section-title">T-Shirts Streetwear & Y2K</h2>
+                    <p class="section-subtitle">Graphismes numériques, oversize et respirants</p>
+                </div>
+                <div class="gender-tabs">
+                    <button class="gender-tab-btn active" onclick="switchGender('tshirts', 'all', event)">All</button>
+                    <button class="gender-tab-btn" onclick="switchGender('tshirts', 'homme', event)">Homme</button>
+                    <button class="gender-tab-btn" onclick="switchGender('tshirts', 'femme', event)">Femme</button>
+                </div>
+            </div>
+
+            <div class="product-grid" id="grid-tshirts">
+                <!-- PRODUIT 1 -->
+                <div class="product-card" data-gender="homme unisex">
+                    <span class="badge-promo">-10%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes1.png" alt="T-Shirt Graphique Digital N°1">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Y2K</div>
+                            <div class="product-name">T-Shirt Graphique Digital N°1</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.8</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€29.99</span>
+                                <span class="product-old-price">€33.32</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Graphique Digital N°1', '€29.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes1.png'], 'T-shirt oversize au design graphique numérique unique, parfait pour un style streetwear et gothique respirant.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Graphique Digital N°1', 29.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 2 -->
+                <div class="product-card" data-gender="femme">
+                    <span class="badge-promo">-15%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes2.png" alt="T-Shirt Oversize Col V N°2">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Femme</div>
+                            <div class="product-name">T-Shirt Oversize Col V N°2</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.9</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€27.99</span>
+                                <span class="product-old-price">€32.93</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Oversize Col V N°2', '€27.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes2.png'], 'Coupe col V tendance Y2K, tissu léger et respirant pour un look Harajuku affirmé.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Oversize Col V N°2', 27.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 3 -->
+                <div class="product-card" data-gender="homme">
+                    <span class="badge-promo">-10%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes3.png" alt="T-Shirt Harajuku Hip Hop N°3">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Homme</div>
+                            <div class="product-name">T-Shirt Harajuku Hip Hop N°3</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="rating-score">4.7</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€28.99</span>
+                                <span class="product-old-price">€32.21</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Harajuku Hip Hop N°3', '€28.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes3.png'], 'Inspiré de la culture hip-hop et streetwear, un basique revisité avec des graphismes percutants.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Harajuku Hip Hop N°3', 28.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 4 -->
+                <div class="product-card" data-gender="homme unisex">
+                    <span class="badge-promo">-20%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes4.png" alt="T-Shirt Sportswear Goth N°4">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Sportswear</div>
+                            <div class="product-name">T-Shirt Sportswear Goth N°4</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">5.0</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€24.99</span>
+                                <span class="product-old-price">€31.24</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Sportswear Goth N°4', '€24.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes4.png'], 'Mélange subtil d\'influences sportswear et gothiques. Confortable et ultra respirant.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Sportswear Goth N°4', 24.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 5 -->
+                <div class="product-card" data-gender="femme">
+                    <span class="badge-promo">-10%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes5.png" alt="T-Shirt Y2K Cyber N°5">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Y2K</div>
+                            <div class="product-name">T-Shirt Y2K Cyber N°5</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="rating-score">4.6</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€26.99</span>
+                                <span class="product-old-price">€29.99</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Y2K Cyber N°5', '€26.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes5.png'], 'Un style cyber unique pour un look branché et affirmé au quotidien.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Y2K Cyber N°5', 26.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 6 -->
+                <div class="product-card" data-gender="homme">
+                    <span class="badge-promo">-15%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes6.png" alt="T-Shirt Graphique Noir N°6">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Streetwear</div>
+                            <div class="product-name">T-Shirt Graphique Noir N°6</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.9</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€29.99</span>
+                                <span class="product-old-price">€35.28</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Graphique Noir N°6', '€29.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes6.png'], 'Imprimé numérique haute définition sur coton noir lourd de qualité supérieure.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Graphique Noir N°6', 29.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 7 -->
+                <div class="product-card" data-gender="femme">
+                    <span class="badge-promo">-12%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes7.png" alt="T-Shirt Col V Harajuku N°7">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Harajuku</div>
+                            <div class="product-name">T-Shirt Col V Harajuku N°7</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.8</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€25.99</span>
+                                <span class="product-old-price">€29.53</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Col V Harajuku N°7', '€25.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes7.png'], 'Style Harajuku authentique avec une coupe élégante et confortable.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Col V Harajuku N°7', 25.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 8 -->
+                <div class="product-card" data-gender="homme unisex">
+                    <span class="badge-promo">-10%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes8.png" alt="T-Shirt Oversize Goth N°8">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Goth</div>
+                            <div class="product-name">T-Shirt Oversize Goth N°8</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="rating-score">4.7</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€27.99</span>
+                                <span class="product-old-price">€31.10</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Oversize Goth N°8', '€27.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes8.png'], 'L\'esprit gothique revisite le vestiaire streetwear moderne.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Oversize Goth N°8', 27.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 9 -->
+                <div class="product-card" data-gender="homme">
+                    <span class="badge-promo">-18%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes9.png" alt="T-Shirt Hip Hop Digital N°9">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Hip Hop</div>
+                            <div class="product-name">T-Shirt Hip Hop Digital N°9</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.9</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€28.99</span>
+                                <span class="product-old-price">€35.35</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Hip Hop Digital N°9', '€28.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes9.png'], 'Design avant-gardiste inspiré des graphismes numériques rétro.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Hip Hop Digital N°9', 28.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 10 -->
+                <div class="product-card" data-gender="femme">
+                    <span class="badge-promo">-15%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes10.png" alt="T-Shirt Respirant Y2K N°10">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Y2K</div>
+                            <div class="product-name">T-Shirt Respirant Y2K N°10</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">5.0</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€26.99</span>
+                                <span class="product-old-price">€31.75</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Respirant Y2K N°10', '€26.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes10.png'], 'Idéal pour l\'été, ce t-shirt allie respirabilité et design pointu.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Respirant Y2K N°10', 26.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 11 -->
+                <div class="product-card" data-gender="homme unisex">
+                    <span class="badge-promo">-10%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes11.png" alt="T-Shirt Streetwear Graph N°11">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Streetwear</div>
+                            <div class="product-name">T-Shirt Streetwear Graph N°11</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="rating-score">4.6</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€29.99</span>
+                                <span class="product-old-price">€33.32</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Streetwear Graph N°11', '€29.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes11.png'], 'Une pièce forte pour affirmer votre style dans la rue.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Streetwear Graph N°11', 29.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 12 -->
+                <div class="product-card" data-gender="homme">
+                    <span class="badge-promo">-12%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes12.png" alt="T-Shirt Oversize Sport N°12">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Sportswear</div>
+                            <div class="product-name">T-Shirt Oversize Sport N°12</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.9</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€27.99</span>
+                                <span class="product-old-price">€31.80</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Oversize Sport N°12', '€27.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes12.png'], 'Le confort d\'une coupe oversize couplée à un design athlétique urbain.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Oversize Sport N°12', 27.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 13 -->
+                <div class="product-card" data-gender="femme">
+                    <span class="badge-promo">-20%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes13.png" alt="T-Shirt Gothique Col V N°13">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Goth</div>
+                            <div class="product-name">T-Shirt Gothique Col V N°13</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.8</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€24.99</span>
+                                <span class="product-old-price">€31.24</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Gothique Col V N°13', '€24.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes13.png'], 'Col V audacieux et finitions sombres pour un look ténébreux irrésistible.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Gothique Col V N°13', 24.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 14 -->
+                <div class="product-card" data-gender="homme unisex">
+                    <span class="badge-promo">-15%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes14.png" alt="T-Shirt Digital Harajuku N°14">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Harajuku</div>
+                            <div class="product-name">T-Shirt Digital Harajuku N°14</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="rating-score">4.7</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€28.99</span>
+                                <span class="product-old-price">€34.10</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Digital Harajuku N°14', '€28.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes14.png'], 'Imprimé numérique inspiré de l\'art de rue tokyoïte.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Digital Harajuku N°14', 28.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 15 -->
+                <div class="product-card" data-gender="homme">
+                    <span class="badge-promo">-10%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes15.png" alt="T-Shirt Oversize Noir N°15">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Streetwear</div>
+                            <div class="product-name">T-Shirt Oversize Noir N°15</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.9</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€29.99</span>
+                                <span class="product-old-price">€33.32</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Oversize Noir N°15', '€29.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes15.png'], 'Le t-shirt oversize noir par excellence, un incontournable de votre garde-robe.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Oversize Noir N°15', 29.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 16 -->
+                <div class="product-card" data-gender="femme">
+                    <span class="badge-promo">-12%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes16.png" alt="T-Shirt Y2K Aesthetic N°16">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Y2K</div>
+                            <div class="product-name">T-Shirt Y2K Aesthetic N°16</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.8</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€26.99</span>
+                                <span class="product-old-price">€30.67</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Y2K Aesthetic N°16', '€26.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes16.png'], 'Esthétique pure des années 2000 avec une touche moderne et élégante.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Y2K Aesthetic N°16', 26.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUIT 17 -->
+                <div class="product-card" data-gender="homme unisex">
+                    <span class="badge-promo">-15%</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes17.png" alt="T-Shirt Ultimate Goth N°17">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">T-Shirt / Goth</div>
+                            <div class="product-name">T-Shirt Ultimate Goth N°17</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">5.0</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€28.99</span>
+                                <span class="product-old-price">€34.10</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('T-Shirt Ultimate Goth N°17', '€28.99', ['T-Shirts Hommes Streetwear Sportswear Harajuku Hip Hop Graphismes Numériques T-Shirt Oversize Goth Respirant Col V Y2K Hauts Hommes Femmes17.png'], 'Modèle exclusif pour clôturer la collection avec style et originalité.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('T-Shirt Ultimate Goth N°17', 28.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- BAS, JEANS & CARGO Y2K -->
         <section id="bas" class="category-section">
             <div class="category-header-flex">
@@ -1060,9 +1679,39 @@
             </div>
 
             <div class="product-grid" id="grid-bas">
+                <!-- NOUVEAU PRODUIT AJOUTÉ -->
+                <div class="product-card" data-gender="homme">
+                    <span class="badge-promo">-15%</span>
+                    <div class="product-image-container">
+                        <img class="product-image slider-img" data-images='["Été Y2K Baggy Jorts pour hommes 2026 nouveau pantalon en Jean court brodé Vintage jambe large Bermuda Hip Hop Streetwear Denim Shorts1.png", "Été Y2K Baggy Jorts pour hommes 2026 nouveau pantalon en Jean court brodé Vintage jambe large Bermuda Hip Hop Streetwear Denim Shorts2.png", "Été Y2K Baggy Jorts pour hommes 2026 nouveau pantalon en Jean court brodé Vintage jambe large Bermuda Hip Hop Streetwear Denim Shorts3.png"]' src="Été Y2K Baggy Jorts pour hommes 2026 nouveau pantalon en Jean court brodé Vintage jambe large Bermuda Hip Hop Streetwear Denim Shorts1.png" alt="Été Y2K Baggy Jorts pour hommes">
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <div class="product-category">Bas / Jorts</div>
+                            <div class="product-name">Été Y2K Baggy Jorts Brodé</div>
+                            <div class="product-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-score">4.9</span>
+                            </div>
+                        </div>
+                        <div class="product-footer">
+                            <div class="product-price-container">
+                                <span class="product-price">€39.99</span>
+                                <span class="product-old-price">€46.99</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-detail" onclick="openModal('Été Y2K Baggy Jorts Brodé', '€39.99', ['Été Y2K Baggy Jorts pour hommes 2026 nouveau pantalon en Jean court brodé Vintage jambe large Bermuda Hip Hop Streetwear Denim Shorts1.png', 'Été Y2K Baggy Jorts pour hommes 2026 nouveau pantalon en Jean court brodé Vintage jambe large Bermuda Hip Hop Streetwear Denim Shorts2.png', 'Été Y2K Baggy Jorts pour hommes 2026 nouveau pantalon en Jean court brodé Vintage jambe large Bermuda Hip Hop Streetwear Denim Shorts3.png'], 'Bermuda en jean court baggy vintage avec broderies soignées. La pièce phare street et hip-hop pour l\'été 2026.')">Voir</button>
+                                <button class="btn-add" onclick="promptAddToCart('Été Y2K Baggy Jorts Brodé', 39.99)">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="product-card" data-gender="all homme">
                     <span class="badge-promo">-10%</span>
-                    <img class="product-image" src="jeans1.png" alt="Jeans Y2K Baggy">
+                    <div class="product-image-container">
+                        <img class="product-image slider-img" data-images='["jeans1.png", "jeans2.png", "jeans3.png", "jeans4.png"]' src="jeans1.png" alt="Jeans Y2K Baggy">
+                    </div>
                     <div class="product-info">
                         <div>
                             <div class="product-category">Bas / Jeans</div>
@@ -1087,7 +1736,9 @@
 
                 <div class="product-card" data-gender="homme">
                     <span class="badge-promo">-5%</span>
-                    <img class="product-image" src="Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté1.png" alt="Pantalon gris brodé camouflage tactique">
+                    <div class="product-image-container">
+                        <img class="product-image slider-img" data-images='["Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté1.png", "Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté2.png", "Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté3.png", "Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté4.png"]' src="Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium avec cordon de serrage décontracté1.png" alt="Pantalon gris brodé camouflage tactique">
+                    </div>
                     <div class="product-info">
                         <div>
                             <div class="product-category">Bas / Homme</div>
@@ -1112,7 +1763,9 @@
 
                 <div class="product-card" data-gender="femme">
                     <span class="badge-promo">-15%</span>
-                    <img class="product-image" src="penta1.png" alt="Pantalon Y2K Cargo">
+                    <div class="product-image-container">
+                        <img class="product-image slider-img" data-images='["penta1.png", "penta2.png", "penta3.png", "penta4.png"]' src="penta1.png" alt="Pantalon Y2K Cargo">
+                    </div>
                     <div class="product-info">
                         <div>
                             <div class="product-category">Bas / Femme</div>
@@ -1137,7 +1790,9 @@
 
                 <div class="product-card" data-gender="homme unisex">
                     <span class="badge-promo">-15%</span>
-                    <img class="product-image" src="water1.png" alt="Pantalon Y2K Tech">
+                    <div class="product-image-container">
+                        <img class="product-image slider-img" data-images='["water1.png", "water2.png", "water3.png", "water4.png"]' src="water1.png" alt="Pantalon Y2K Tech">
+                    </div>
                     <div class="product-info">
                         <div>
                             <div class="product-category">Bas / Pantalon</div>
@@ -1185,22 +1840,64 @@
                     <p id="modalDesc" class="modal-desc">Description</p>
                 </div>
                 <div>
+                    <div class="size-selector">
+                        <label>Choisis ta taille :</label>
+                        <div class="size-options">
+                            <button type="button" class="size-btn" onclick="selectModalSize('S', this)">S</button>
+                            <button type="button" class="size-btn selected" onclick="selectModalSize('M', this)">M</button>
+                            <button type="button" class="size-btn" onclick="selectModalSize('L', this)">L</button>
+                            <button type="button" class="size-btn" onclick="selectModalSize('XL', this)">XL</button>
+                        </div>
+                    </div>
                     <button class="btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer;" onclick="addModalToCart()">Ajouter au panier</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Confirmation d'Ajout au Panier -->
+    <!-- Modal de Confirmation d'Ajout au Panier & Taille -->
     <div id="confirmModal" class="confirm-modal">
         <div class="confirm-container">
             <button class="close-confirm" onclick="closeConfirmModal()">&times;</button>
-            <h3>Confirmer l'ajout</h3>
-            <p>Veux-tu ajouter <strong id="confirmItemName" style="color: #fff;"></strong> à ton panier ?</p>
+            <h3>Sélection de la taille</h3>
+            <p>Ajouter <strong id="confirmItemName" style="color: #fff;"></strong> à ton panier ?</p>
+            
+            <div class="size-selector">
+                <label>Taille :</label>
+                <div class="size-options">
+                    <button type="button" class="size-btn" onclick="selectPromptSize('S', this)">S</button>
+                    <button type="button" class="size-btn selected" onclick="selectPromptSize('M', this)">M</button>
+                    <button type="button" class="size-btn" onclick="selectPromptSize('L', this)">L</button>
+                    <button type="button" class="size-btn" onclick="selectPromptSize('XL', this)">XL</button>
+                </div>
+            </div>
+
             <div class="confirm-actions">
                 <button class="btn-secondary" onclick="closeConfirmModal()">Annuler</button>
                 <button class="btn-primary" onclick="confirmAddToCart()">Confirmer</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Politique d'utilisation / CGV -->
+    <div id="policyModal" class="policy-modal">
+        <div class="policy-container">
+            <button class="close-policy" onclick="closePolicyModal()">&times;</button>
+            <h3>Politique d'utilisation & CGV</h3>
+            <div class="policy-body">
+                <h4>1. Objet</h4>
+                <p>Les présentes Conditions Générales de Vente régissent l'achat de vêtements et accessoires streetwear sur la boutique LEGA's Y2K.</p>
+                
+                <h4>2. Commandes & Paiements</h4>
+                <p>Tous les paiements s'effectuent de manière sécurisée via l'API PayPal intégrée sur le site. Une fois le paiement validé, un récapitulatif détaillé est transmis à notre service.</p>
+                
+                <h4>3. Livraison & Expédition</h4>
+                <p>Les colis sont expédiés sous 48h ouvrées. L'adresse de livraison renseignée lors de la transaction PayPal fait foi pour l'acheminement de la commande.</p>
+                
+                <h4>4. Retours & Échanges</h4>
+                <p>Vous disposez d'un délai de 14 jours suivant la réception de votre article pour effectuer une demande de retour si le produit ne correspond pas à vos attentes, sous réserve qu'il soit non porté et dans son emballage d'origine.</p>
+            </div>
+            <button class="btn-primary" style="width: 100%;" onclick="closePolicyModal()">J'ai compris</button>
         </div>
     </div>
 
@@ -1274,20 +1971,21 @@
                 <h4>Navigation</h4>
                 <ul>
                     <li><a href="#hauts">Hauts & Zips</a></li>
+                    <li><a href="#tshirts">T-Shirts</a></li>
                     <li><a href="#bas">Bas & Baggy</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Aide & Legal</h4>
                 <ul>
-                    <li><a href="#">Suivre mon colis</a></li>
-                    <li><a href="#">Retours & Échanges</a></li>
-                    <li><a href="#">Conditions Générales</a></li>
+                    <li><a onclick="openPolicyModal()">Politique d'utilisation</a></li>
+                    <li><a onclick="openPolicyModal()">Retours & Échanges</a></li>
+                    <li><a onclick="openPolicyModal()">Conditions Générales</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Contact</h4>
-                <p style="font-size: 0.85rem; margin-bottom: 8px;">contact@legas-y2k.fr</p>
+                <p style="font-size: 0.85rem; margin-bottom: 8px;">y2klegas@gmail.com</p>
                 <p style="font-size: 0.8rem; color: #555;">DM ouvert 7j/7</p>
             </div>
         </div>
@@ -1298,10 +1996,83 @@
 
     <script>
         let cart = [];
-        let currentItemName = '';
-        let currentItemPrice = 0;
         let pendingItemName = '';
         let pendingItemPrice = 0;
+        let selectedSizePrompt = 'M';
+        let selectedModalSizeChoice = 'M';
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const sliders = document.querySelectorAll('.slider-img');
+            let globalIntervalId = null;
+            let isPaused = false;
+
+            sliders.forEach(img => {
+                const imagesAttr = img.getAttribute('data-images');
+                if (imagesAttr) {
+                    try {
+                        const images = JSON.parse(imagesAttr);
+                        if (images.length > 1) {
+                            const container = img.parentElement;
+                            
+                            const dotsContainer = document.createElement('div');
+                            dotsContainer.className = 'carousel-dots';
+                            let dots = [];
+                            
+                            for (let i = 0; i < images.length; i++) {
+                                const dot = document.createElement('div');
+                                dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                                dotsContainer.appendChild(dot);
+                                dots.push(dot);
+                            }
+                            container.appendChild(dotsContainer);
+
+                            img.dataset.currentIndex = "0";
+                            img.dataset.images = imagesAttr;
+                            
+                            const card = container.closest('.product-card');
+                            if (card) {
+                                card.addEventListener('mouseenter', () => { isPaused = true; });
+                                card.addEventListener('mouseleave', () => { isPaused = false; });
+                            }
+                        }
+                    } catch(e) {
+                        console.error("Erreur parsing images slider", e);
+                    }
+                }
+            });
+
+            globalIntervalId = setInterval(() => {
+                if (isPaused) return;
+
+                sliders.forEach(img => {
+                    const imagesAttr = img.dataset.images;
+                    if (imagesAttr) {
+                        const images = JSON.parse(imagesAttr);
+                        if (images.length > 1) {
+                            let currentIndex = parseInt(img.dataset.currentIndex || "0");
+                            currentIndex = (currentIndex + 1) % images.length;
+                            img.dataset.currentIndex = currentIndex;
+
+                            img.style.opacity = '0';
+                            setTimeout(() => {
+                                img.src = images[currentIndex];
+                                img.style.opacity = '1';
+                            }, 250);
+
+                            const container = img.parentElement;
+                            const dots = container.querySelectorAll('.carousel-dot');
+                            dots.forEach((d, idx) => {
+                                if (idx === currentIndex) {
+                                    d.classList.add('active');
+                                } else {
+                                    d.classList.remove('active');
+                                }
+                            });
+                        }
+                    }
+                });
+            }, 3500);
+        });
 
         function toggleCart() {
             const drawer = document.getElementById('cartDrawer');
@@ -1333,8 +2104,31 @@
         function promptAddToCart(name, price) {
             pendingItemName = name;
             pendingItemPrice = price;
+            selectedSizePrompt = 'M';
             document.getElementById('confirmItemName').innerText = name;
-            document.getElementById('confirmModal').style.display = 'flex';
+            
+            const modalBox = document.getElementById('confirmModal');
+            const sizeBtns = modalBox.querySelectorAll('.size-btn');
+            sizeBtns.forEach(btn => {
+                if (btn.innerText === 'M') btn.classList.add('selected');
+                else btn.classList.remove('selected');
+            });
+
+            confirmModal.style.display = 'flex';
+        }
+
+        function selectPromptSize(size, el) {
+            selectedSizePrompt = size;
+            const parent = el.parentElement;
+            parent.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function selectModalSize(size, el) {
+            selectedModalSizeChoice = size;
+            const parent = el.parentElement;
+            parent.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
         }
 
         function closeConfirmModal() {
@@ -1342,17 +2136,17 @@
         }
 
         function confirmAddToCart() {
-            addToCart(pendingItemName, pendingItemPrice);
+            addToCart(pendingItemName, pendingItemPrice, selectedSizePrompt);
             closeConfirmModal();
             showCartNotification();
         }
 
-        function addToCart(name, price) {
-            const existingItem = cart.find(item => item.name === name);
+        function addToCart(name, price, size) {
+            const existingItem = cart.find(item => item.name === name && item.size === size);
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                cart.push({ name, price, quantity: 1 });
+                cart.push({ name, price, size, quantity: 1 });
             }
             updateCartCount();
         }
@@ -1389,7 +2183,8 @@
                 itemEl.innerHTML = `
                     <div class="cart-item-info">
                         <h4>${item.name}</h4>
-                        <p>€${item.price.toFixed(2)} x ${item.quantity}</p>
+                        <p>Taille : <strong>${item.size}</strong></p>
+                        <p class="cart-price-tag">€${item.price.toFixed(2)} x ${item.quantity}</p>
                     </div>
                     <button class="cart-item-remove" onclick="removeFromCart(${index})">&times;</button>
                 `;
@@ -1400,23 +2195,28 @@
         }
 
         function addModalToCart() {
+            const name = document.getElementById('modalTitle').innerText;
+            const priceStr = document.getElementById('modalPrice').innerText;
+            const price = parseFloat(priceStr.replace('€', '').replace(',', '.'));
             closeModal();
-            promptAddToCart(currentItemName, currentItemPrice);
+            addToCart(name, price, selectedModalSizeChoice);
+            showCartNotification();
         }
 
-        // Fonction pour envoyer l'e-mail récapitulatif via EmailJS
-        function sendOrderEmail(orderDetails, totalPrice) {
-            let itemsSummary = orderDetails.map(item => `- ${item.name} (x${item.quantity}) : €${(item.price * item.quantity).toFixed(2)}`).join('\n');
+        function sendOrderEmail(orderDetails, totalPrice, shippingDetails) {
+            let itemsSummary = orderDetails.map(item => `- ${item.name} [Taille: ${item.size}] (x${item.quantity}) : €${(item.price * item.quantity).toFixed(2)}`).join('\n');
 
             let templateParams = {
                 to_email: "y2klegas@gmail.com",
                 order_details: itemsSummary,
-                total_price: totalPrice + " €"
+                total_price: totalPrice + " €",
+                client_name: shippingDetails.name || "Client PayPal",
+                shipping_address: `${shippingDetails.address.address_line_1 || ''}, ${shippingDetails.address.admin_area_2 || ''} ${shippingDetails.address.postal_code || ''}, ${shippingDetails.address.country_code || ''}`
             };
 
             emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
                 .then(function(response) {
-                    console.log('E-mail envoyé avec succès !', response.status, response.text);
+                    console.log('E-mail envoyé avec succès à y2klegas@gmail.com !', response.status);
                 }, function(error) {
                     console.error('Erreur lors de l\'envoi de l\'e-mail :', error);
                 });
@@ -1451,7 +2251,12 @@
                         document.getElementById('checkoutModal').style.display = 'none';
                         document.getElementById('successModal').style.display = 'flex';
                         
-                        sendOrderEmail(purchasedItems, totalPrice);
+                        const shippingInfo = {
+                            name: details.shipping ? details.shipping.name.full_name : (details.payer.name.given_name + ' ' + details.payer.name.surname),
+                            address: details.shipping ? details.shipping.address : { address_line_1: "Adresse non spécifiée", admin_area_2: "", postal_code: "", country_code: "FR" }
+                        };
+
+                        sendOrderEmail(purchasedItems, totalPrice, shippingInfo);
 
                         cart = [];
                         updateCartCount();
@@ -1465,6 +2270,14 @@
 
         function closeCheckout() {
             document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        function openPolicyModal() {
+            document.getElementById('policyModal').style.display = 'flex';
+        }
+
+        function closePolicyModal() {
+            document.getElementById('policyModal').style.display = 'none';
         }
 
         function returnToHome() {
@@ -1494,13 +2307,17 @@
         }
 
         function openModal(title, priceStr, images, desc) {
-            currentItemName = title;
-            currentItemPrice = parseFloat(priceStr.replace('€', '').replace(',', '.'));
-            
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalPrice').innerText = priceStr;
             document.getElementById('modalDesc').innerText = desc;
             
+            selectedModalSizeChoice = 'M';
+            const modalBox = document.getElementById('productModal');
+            modalBox.querySelectorAll('.size-btn').forEach(btn => {
+                if (btn.innerText === 'M') btn.classList.add('selected');
+                else btn.classList.remove('selected');
+            });
+
             const mainImg = document.getElementById('modalMainImg');
             const thumbContainer = document.getElementById('modalThumbnails');
             thumbContainer.innerHTML = '';
@@ -1520,7 +2337,7 @@
                 });
             }
 
-            document.getElementById('productModal').style.display = 'flex';
+            modalBox.style.display = 'flex';
         }
 
         function closeModal() {
@@ -1533,12 +2350,14 @@
             const drawer = document.getElementById('cartDrawer');
             const checkout = document.getElementById('checkoutModal');
             const success = document.getElementById('successModal');
+            const policy = document.getElementById('policyModal');
             
             if (event.target === modal) closeModal();
             if (event.target === confirmModal) closeConfirmModal();
             if (event.target === drawer) toggleCart();
             if (event.target === checkout) closeCheckout();
             if (event.target === success) returnToHome();
+            if (event.target === policy) closePolicyModal();
         }
     </script>
 </body>
