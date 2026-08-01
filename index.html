@@ -2525,22 +2525,6 @@
         function closeModal() {
             document.getElementById('productModal').style.display = 'none';
         }
-
-        window.onclick = function (event) {
-            const modal = document.getElementById('productModal');
-            const confirmModal = document.getElementById('confirmModal');
-            const drawer = document.getElementById('cartDrawer');
-            const checkout = document.getElementById('checkoutModal');
-            const success = document.getElementById('successModal');
-            const policy = document.getElementById('policyModal');
-            
-            if (event.target === modal) closeModal();
-            if (event.target === confirmModal) closeConfirmModal();
-            if (event.target === drawer) toggleCart();
-            if (event.target === checkout) closeCheckout();
-            if (event.target === success) returnToHome();
-            if (event.target === policy) closePolicyModal();
-        }
     </script>
 </body>
 </html>
