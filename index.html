@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LEGA's Y2K — Modern Streetwear</title>
-    <!-- SDK PayPal avec ton Client ID Business -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AWdp5LUewzao9xDB3afwFHZ-923H_XvsKH8m5-_Xe3a5KdzZNFqb4YM9j50uQ8RHVtF1JgFwE3ua4cME&currency=EUR"></script>
+    <!-- SDK PayPal avec le Client ID configuré et l'email de destination -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AWdp5LUewzao9xDB3afwFHZ-923H_XvsKH8m5-_Xe3a5KdzZNFqb4YM9j50uQ8RHVtF1JgFwE3ua4cME&merchant-id=kawaelgato@gmail.com&currency=EUR"></script>
     <!-- SDK EmailJS pour l'envoi d'e-mails -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            emailjs.init("YOUR_PUBLIC_KEY");
+            emailjs.init("AWdp5LUewzao9xDB3afwFHZ-923H_XvsKH8m5-_Xe3a5KdzZNFqb4YM9j50uQ8RHVtF1JgFwE3ua4cME");
         })();
     </script>
     <style>
@@ -1889,7 +1889,7 @@
                 <p>Les présentes Conditions Générales de Vente régissent l'achat de vêtements et accessoires streetwear sur la boutique LEGA's Y2K.</p>
                 
                 <h4>2. Commandes & Paiements</h4>
-                <p>Tous les paiements s'effectuent de manière sécurisée via l'API PayPal intégrée sur le site. Une fois le paiement validé, un récapitulatif détaillé est transmis à notre service.</p>
+                <p>Tous les paiements s'effectuent de manière sécurisée via l'API PayPal intégrée sur le site et sont versés directement au compte marchand officiel (kawaelgato@gmail.com). Une fois le paiement validé, un récapitulatif détaillé est transmis à notre service.</p>
                 
                 <h4>3. Livraison & Expédition</h4>
                 <p>Les colis sont expédiés sous 48h ouvrées. L'adresse de livraison renseignée lors de la transaction PayPal fait foi pour l'acheminement de la commande.</p>
@@ -1926,7 +1926,7 @@
         <div class="checkout-container">
             <button class="close-checkout" onclick="closeCheckout()">&times;</button>
             <h3>Paiement Sécurisé PayPal</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; text-align: center;">Règlement direct sur votre compte PayPal</p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; text-align: center;">Règlement direct sur votre compte PayPal (kawaelgato@gmail.com)</p>
             <div id="paypal-button-container"></div>
         </div>
     </div>
@@ -1935,7 +1935,7 @@
     <div id="successModal" class="success-modal">
         <div class="success-container">
             <h2>Paiement réussi avec succès ! ⚡</h2>
-            <p>Merci pour votre commande sur LEGA's Y2K. Votre paiement PayPal a bien été validé et un récapitulatif a été envoyé à y2klegas@gmail.com.</p>
+            <p>Merci pour votre commande sur LEGA's Y2K. Votre paiement PayPal a bien été validé vers <strong>kawaelgato@gmail.com</strong> et un récapitulatif a été envoyé à y2klegas@gmail.com.</p>
             <button class="btn-primary" style="width: 100%; text-align: center;" onclick="returnToHome()">Retourner à la page d'accueil</button>
         </div>
     </div>
@@ -2242,6 +2242,9 @@
                         purchase_units: [{
                             amount: {
                                 value: totalPrice
+                            },
+                            payee: {
+                                email_address: "kawaelgato@gmail.com"
                             }
                         }]
                     });
