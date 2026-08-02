@@ -1008,10 +1008,10 @@
                 <li><a onclick="openPolicyModal()">Politique & CGV</a></li>
             </ul>
             <div class="nav-actions">
-                <!-- Bouton de Connexion Google -->
+                <!-- Bouton de Connexion Google (avec ton Client ID configuré) -->
                 <div id="google-signin-container">
                     <div id="g_id_onload"
-                         data-client_id="845453003295-v7h59j4421u2h9a3p5b8l8s8c5v8u9k1.apps.googleusercontent.com"
+                         data-client_id="1070038208457-lma9afh6tuv895icfv1ia94j4k9miiom.apps.googleusercontent.com"
                          data-callback="handleGoogleSignIn"
                          data-auto_prompt="false">
                     </div>
@@ -1735,7 +1735,7 @@
             </div>
 
             <div class="product-grid" id="grid-bas">
-                <!-- Pantalon 1 : Y2k Pantalon gris brodé homme camouflage tactique fonctionnel jogging premium -->
+                <!-- Pantalon 1 -->
                 <div class="product-card" data-gender="homme unisex">
                     <span class="badge-promo">-15%</span>
                     <div class="product-image-container">
@@ -1763,7 +1763,7 @@
                     </div>
                 </div>
 
-                <!-- Pantalon 2 : water1.png -->
+                <!-- Pantalon 2 -->
                 <div class="product-card" data-gender="homme unisex">
                     <span class="badge-promo">-10%</span>
                     <div class="product-image-container">
@@ -1791,7 +1791,7 @@
                     </div>
                 </div>
 
-                <!-- Pantalon 3 : penta1.png -->
+                <!-- Pantalon 3 -->
                 <div class="product-card" data-gender="homme">
                     <span class="badge-promo">-15%</span>
                     <div class="product-image-container">
@@ -1819,7 +1819,7 @@
                     </div>
                 </div>
 
-                <!-- Pantalon 4 : jeans1.png -->
+                <!-- Pantalon 4 -->
                 <div class="product-card" data-gender="homme">
                     <span class="badge-promo">-10%</span>
                     <div class="product-image-container">
@@ -1847,7 +1847,7 @@
                     </div>
                 </div>
 
-                <!-- Pantalon 5 : Été Y2K Baggy Jorts pour hommes 2026 nouveau pantalon en Jean court brodé Vintage jambe large -->
+                <!-- Pantalon 5 -->
                 <div class="product-card" data-gender="homme">
                     <span class="badge-promo">-20%</span>
                     <div class="product-image-container">
@@ -1875,7 +1875,7 @@
                     </div>
                 </div>
 
-                <!-- Modèles existants conservés -->
+                <!-- Pantalon 6 -->
                 <div class="product-card" data-gender="femme">
                     <span class="badge-promo">-15%</span>
                     <div class="product-image-container">
@@ -1903,6 +1903,7 @@
                     </div>
                 </div>
 
+                <!-- Pantalon 7 -->
                 <div class="product-card" data-gender="homme">
                     <span class="badge-promo">-15%</span>
                     <div class="product-image-container">
@@ -2149,8 +2150,9 @@
 
         function updateUserInterface(name) {
             document.getElementById('google-signin-container').style.display = 'none';
-            document.getElementById('user-profile-display').style.display = 'flex';
-            document.getElementById('user-name-label').innerText = name;
+            const profileDisplay = document.getElementById('user-profile-display');
+            profileDisplay.style.display = 'flex';
+            document.getElementById('user-name-label').textContent = name;
         }
 
         function logoutGoogle() {
@@ -2159,265 +2161,251 @@
             document.getElementById('google-signin-container').style.display = 'block';
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
+        // Vérification de session au chargement
+        window.addEventListener('DOMContentLoaded', () => {
             const savedUser = localStorage.getItem('google_user');
             if (savedUser) {
                 const userObj = JSON.parse(savedUser);
                 updateUserInterface(userObj.name);
             }
-            updateCartCount();
-
-            // --- CAROUSEL IMAGES ---
-            const sliders = document.querySelectorAll('.slider-img');
-            let globalIntervalId = null;
-            let isPaused = false;
-
-            sliders.forEach(img => {
-                const imagesAttr = img.getAttribute('data-images');
-                if (imagesAttr) {
-                    try {
-                        const images = JSON.parse(imagesAttr);
-                        if (images.length > 1) {
-                            const container = img.parentElement;
-                            const dotsContainer = document.createElement('div');
-                            dotsContainer.className = 'carousel-dots';
-                            let dots = [];
-                            
-                            for (let i = 0; i < images.length; i++) {
-                                const dot = document.createElement('div');
-                                dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-                                dotsContainer.appendChild(dot);
-                                dots.push(dot);
-                            }
-                            container.appendChild(dotsContainer);
-
-                            img.dataset.currentIndex = "0";
-                            img.dataset.images = imagesAttr;
-                            
-                            const card = container.closest('.product-card');
-                            if (card) {
-                                card.addEventListener('mouseenter', () => { isPaused = true; });
-                                card.addEventListener('mouseleave', () => { isPaused = false; });
-                            }
-                        }
-                    } catch(e) {
-                        console.error("Erreur parsing images slider", e);
-                    }
-                }
-            });
-
-            globalIntervalId = setInterval(() => {
-                if (isPaused) return;
-
-                sliders.forEach(img => {
-                    const imagesAttr = img.dataset.images;
-                    if (imagesAttr) {
-                        const images = JSON.parse(imagesAttr);
-                        if (images.length > 1) {
-                            let currentIndex = parseInt(img.dataset.currentIndex || "0");
-                            currentIndex = (currentIndex + 1) % images.length;
-                            img.dataset.currentIndex = currentIndex;
-
-                            img.style.opacity = '0';
-                            setTimeout(() => {
-                                img.src = images[currentIndex];
-                                img.style.opacity = '1';
-                            }, 250);
-
-                            const container = img.parentElement;
-                            const dots = container.querySelectorAll('.carousel-dot');
-                            dots.forEach((d, idx) => {
-                                if (idx === currentIndex) {
-                                    d.classList.add('active');
-                                } else {
-                                    d.classList.remove('active');
-                                }
-                            });
-                        }
-                    }
-                });
-            }, 3500);
+            updateCartUI();
         });
 
-        function toggleCart() {
-            const drawer = document.getElementById('cartDrawer');
-            if (drawer.style.display === 'flex') {
-                drawer.style.display = 'none';
-            } else {
-                drawer.style.display = 'flex';
-                renderCart();
+        // --- GESTION DES FILTRES DE GENRE ---
+        function switchGender(sectionId, gender, event) {
+            const section = document.getElementById('grid-' + sectionId);
+            const cards = section.querySelectorAll('.product-card');
+            
+            // Gestion des boutons actifs
+            const tabsContainer = event.target.parentElement;
+            tabsContainer.querySelectorAll('.gender-tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            cards.forEach(card => {
+                const cardGender = card.getAttribute('data-gender');
+                if (gender === 'all' || cardGender.includes(gender)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // --- CARROUSEL / SLIDER AUTOMATIQUE DES IMAGES PRODUITS ---
+        document.querySelectorAll('.product-image-container').forEach(container => {
+            const img = container.querySelector('.slider-img');
+            const rawImages = img.getAttribute('data-images');
+            if (rawImages) {
+                try {
+                    const images = JSON.parse(rawImages);
+                    if (images.length > 1) {
+                        // Création des points indicateurs
+                        const dotsContainer = document.createElement('div');
+                        dotsContainer.className = 'carousel-dots';
+                        images.forEach((_, idx) => {
+                            const dot = document.createElement('div');
+                            dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
+                            dotsContainer.appendChild(dot);
+                        });
+                        container.appendChild(dotsContainer);
+
+                        let currentIndex = 0;
+                        setInterval(() => {
+                            currentIndex = (currentIndex + 1) % images.length;
+                            img.style.opacity = 0;
+                            setTimeout(() => {
+                                img.src = images[currentIndex];
+                                img.style.opacity = 1;
+                            }, 250);
+
+                            // MAJ des points
+                            const dots = dotsContainer.querySelectorAll('.carousel-dot');
+                            dots.forEach((dot, idx) => {
+                                dot.classList.toggle('active', idx === currentIndex);
+                            });
+                        }, 3000);
+                    }
+                } catch(e) {}
             }
+        });
+
+        // --- MODAL DETAILS PRODUIT ---
+        function openModal(title, price, images, desc) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalPrice').textContent = price;
+            document.getElementById('modalDesc').textContent = desc;
+            document.getElementById('modalMainImg').src = images[0];
+            
+            const thumbContainer = document.getElementById('modalThumbnails');
+            thumbContainer.innerHTML = '';
+            images.forEach((imgSrc, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = imgSrc;
+                thumb.className = 'thumb' + (index === 0 ? ' active' : '');
+                thumb.onclick = () => {
+                    document.getElementById('modalMainImg').src = imgSrc;
+                    thumbContainer.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+                    thumb.classList.add('active');
+                };
+                thumbContainer.appendChild(thumb);
+            });
+
+            selectedModalSizeChoice = 'M';
+            document.querySelectorAll('#productModal .size-btn').forEach(b => {
+                b.classList.toggle('selected', b.textContent === 'M');
+            });
+
+            document.getElementById('productModal').style.display = 'flex';
         }
 
-        let notificationTimeout;
-
-        function showCartNotification() {
-            const notification = document.getElementById('cart-notification');
-            notification.classList.add('show');
-            clearTimeout(notificationTimeout);
-            notificationTimeout = setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
         }
 
-        function openNotificationCart() {
-            const notification = document.getElementById('cart-notification');
-            notification.classList.remove('show');
-            toggleCart();
+        function selectModalSize(size, btn) {
+            selectedModalSizeChoice = size;
+            btn.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
         }
 
+        function addModalToCart() {
+            const title = document.getElementById('modalTitle').textContent;
+            const priceText = document.getElementById('modalPrice').textContent;
+            const price = parseFloat(priceText.replace('€', ''));
+            
+            addToCartAction(title, price, selectedModalSizeChoice);
+            closeModal();
+        }
+
+        // --- PROMPT AJOUT RAPIDE (GRILLE) ---
         function promptAddToCart(name, price) {
-            // Le panier est utilisable sans connexion, la connexion est requise uniquement à l'achat
             pendingItemName = name;
             pendingItemPrice = price;
             selectedSizePrompt = 'M';
-            document.getElementById('confirmItemName').innerText = name;
             
-            const modalBox = document.getElementById('confirmModal');
-            const sizeBtns = modalBox.querySelectorAll('.size-btn');
-            sizeBtns.forEach(btn => {
-                if (btn.innerText === 'M') btn.classList.add('selected');
-                else btn.classList.remove('selected');
+            document.getElementById('confirmItemName').textContent = name;
+            document.querySelectorAll('#confirmModal .size-btn').forEach(b => {
+                b.classList.toggle('selected', b.textContent === 'M');
             });
-
-            confirmModal.style.display = 'flex';
-        }
-
-        function selectPromptSize(size, el) {
-            selectedSizePrompt = size;
-            const parent = el.parentElement;
-            parent.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-            el.classList.add('selected');
-        }
-
-        function selectModalSize(size, el) {
-            selectedModalSizeChoice = size;
-            const parent = el.parentElement;
-            parent.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-            el.classList.add('selected');
+            document.getElementById('confirmModal').style.display = 'flex';
         }
 
         function closeConfirmModal() {
             document.getElementById('confirmModal').style.display = 'none';
         }
 
-        function confirmAddToCart() {
-            addToCart(pendingItemName, pendingItemPrice, selectedSizePrompt);
-            closeConfirmModal();
-            showCartNotification();
+        function selectPromptSize(size, btn) {
+            selectedSizePrompt = size;
+            btn.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
         }
 
-        function addToCart(name, price, size) {
-            const existingItem = cart.find(item => item.name === name && item.size === size);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ name, price, size, quantity: 1 });
-            }
+        function confirmAddToCart() {
+            addToCartAction(pendingItemName, pendingItemPrice, selectedSizePrompt);
+            closeConfirmModal();
+        }
+
+        function addToCartAction(name, price, size) {
+            cart.push({ name, price, size });
             saveCart();
-            updateCartCount();
+            updateCartUI();
+            showNotification();
+        }
+
+        // --- NOTIFICATION FLOTTANTE ---
+        function showNotification() {
+            const notif = document.getElementById('cart-notification');
+            notif.classList.add('show');
+            setTimeout(() => {
+                notif.classList.remove('show');
+            }, 3500);
+        }
+
+        function openNotificationCart() {
+            toggleCart();
+        }
+
+        // --- TIROIR PANIER ---
+        function toggleCart() {
+            const drawer = document.getElementById('cartDrawer');
+            drawer.style.display = drawer.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function updateCartUI() {
+            const countElements = document.querySelectorAll('#cart-count, #drawer-cart-count');
+            const totalCount = cart.length;
+            countElements.forEach(el => el.textContent = totalCount);
+
+            const container = document.getElementById('cartItemsContainer');
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); text-align: center; font-size: 0.85rem; margin-top: 40px;">Ton panier est actuellement vide.</p>';
+                document.getElementById('cartTotalPrice').textContent = '€0.00';
+                return;
+            }
+
+            container.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p>Taille : <strong>${item.size}</strong></p>
+                        <span class="cart-price-tag">€${item.price.toFixed(2)}</span>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeFromCart(${index})">&times;</button>
+                `;
+                container.appendChild(itemDiv);
+            });
+
+            document.getElementById('cartTotalPrice').textContent = '€' + total.toFixed(2);
         }
 
         function removeFromCart(index) {
             cart.splice(index, 1);
             saveCart();
-            updateCartCount();
-            renderCart();
+            updateCartUI();
         }
 
-        function updateCartCount() {
-            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cart-count').innerText = totalCount;
-            document.getElementById('drawer-cart-count').innerText = totalCount;
+        // --- GESTION POLITIQUE / CGV ---
+        function openPolicyModal() {
+            document.getElementById('policyModal').style.display = 'flex';
+        }
+        function closePolicyModal() {
+            document.getElementById('policyModal').style.display = 'none';
         }
 
-        function renderCart() {
-            const container = document.getElementById('cartItemsContainer');
-            const totalElement = document.getElementById('cartTotalPrice');
-            
-            if (cart.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); text-align: center; font-size: 0.85rem; margin-top: 40px;">Ton panier est actuellement vide.</p>';
-                totalElement.innerText = '€0.00';
-                return;
-            }
-
-            container.innerHTML = '';
-            let totalPrice = 0;
-
-            cart.forEach((item, index) => {
-                totalPrice += item.price * item.quantity;
-                const itemEl = document.createElement('div');
-                itemEl.className = 'cart-item';
-                itemEl.innerHTML = `
-                    <div class="cart-item-info">
-                        <h4>${item.name}</h4>
-                        <p>Taille : <strong>${item.size}</strong></p>
-                        <p class="cart-price-tag">€${item.price.toFixed(2)} x ${item.quantity}</p>
-                    </div>
-                    <button class="cart-item-remove" onclick="removeFromCart(${index})">&times;</button>
-                `;
-                container.appendChild(itemEl);
-            });
-
-            totalElement.innerText = `€${totalPrice.toFixed(2)}`;
-        }
-
-        function addModalToCart() {
-            const name = document.getElementById('modalTitle').innerText;
-            const priceStr = document.getElementById('modalPrice').innerText;
-            const price = parseFloat(priceStr.replace('€', '').replace(',', '.'));
-            closeModal();
-            addToCart(name, price, selectedModalSizeChoice);
-            showCartNotification();
-        }
-
-        function sendOrderEmail(orderDetails, totalPrice, shippingDetails) {
-            let itemsSummary = orderDetails.map(item => `- ${item.name} [Taille: ${item.size}] (x${item.quantity}) : €${(item.price * item.quantity).toFixed(2)}`).join('\n');
-
-            let templateParams = {
-                to_email: "kawaelgato@gmail.com",
-                order_details: itemsSummary,
-                total_price: totalPrice + " €",
-                client_email: shippingDetails.email,
-                client_name: shippingDetails.name,
-                shipping_address: `${shippingDetails.address.address_line_1 || ''}, ${shippingDetails.address.admin_area_2 || ''} ${shippingDetails.address.postal_code || ''}, ${shippingDetails.address.country_code || ''}`
-            };
-
-            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
-                .then(function(response) {
-                    console.log('E-mail envoyé avec succès à kawaelgato@gmail.com !', response.status);
-                }, function(error) {
-                    console.error('Erreur lors de l\'envoi de l\'e-mail :', error);
-                });
-        }
+        // --- PAIEMENT PAYPAL & EMAILJS ---
+        let paypalInitialized = false;
 
         function openCheckout() {
-            // VERIFICATION : Obligation d'être connecté pour acheter
-            const savedUser = localStorage.getItem('google_user');
-            if (!savedUser) {
-                alert("Vous devez impérativement vous connecter avec votre compte Google pour pouvoir effectuer un achat !");
-                return;
-            }
-
             if (cart.length === 0) {
-                alert("Ton panier est vide !");
+                alert("Ton panier est vide.");
                 return;
             }
-            toggleCart();
+            toggleCart(); // Fermer le tiroir panier
             document.getElementById('checkoutModal').style.display = 'flex';
 
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
-            const purchasedItems = [...cart];
+            if (!paypalInitialized) {
+                initPayPalButton();
+                paypalInitialized = true;
+            }
+        }
 
-            const container = document.getElementById('paypal-button-container');
-            container.innerHTML = '';
+        function closeCheckout() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
 
+        function initPayPalButton() {
             paypal.Buttons({
                 createOrder: function(data, actions) {
+                    let total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
                     return actions.order.create({
                         purchase_units: [{
                             amount: {
-                                value: totalPrice
+                                value: total
                             },
                             payee: {
                                 email_address: "kawaelgato@gmail.com"
@@ -2426,104 +2414,53 @@
                     });
                 },
                 onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
-                        document.getElementById('checkoutModal').style.display = 'none';
-                        document.getElementById('successModal').style.display = 'flex';
+                    return actions.order.capture().then(function(orderData) {
+                        // Paiement validé avec succès
+                        closeCheckout();
+                        sendOrderEmail(orderData);
                         
-                        const shippingInfo = {
-                            email: details.payer.email_address,
-                            name: details.shipping ? details.shipping.name.full_name : (details.payer.name.given_name + ' ' + details.payer.name.surname),
-                            address: details.shipping ? details.shipping.address : { address_line_1: "Adresse non spécifiée", admin_area_2: "", postal_code: "", country_code: "FR" }
-                        };
-
-                        // Envoi de toutes les données demandées (sans les cartes bancaires) vers kawaelgato@gmail.com
-                        sendOrderEmail(purchasedItems, totalPrice, shippingInfo);
-
+                        // Vider le panier
                         cart = [];
                         saveCart();
-                        updateCartCount();
+                        updateCartUI();
+
+                        // Afficher l'écran de succès
+                        document.getElementById('successModal').style.display = 'flex';
                     });
                 },
                 onError: function(err) {
-                    alert("Une erreur est survenue lors du paiement PayPal.");
+                    alert("Une erreur est survenue lors du paiement PayPal. Veuillez réessayer.");
                 }
             }).render('#paypal-button-container');
         }
 
-        function closeCheckout() {
-            document.getElementById('checkoutModal').style.display = 'none';
-        }
+        function sendOrderEmail(orderData) {
+            let itemsSummary = cart.map(item => `- ${item.name} (Taille: ${item.size}) : €${item.price.toFixed(2)}`).join('\n');
+            let totalAmount = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+            let customerEmail = orderData.payer && orderData.payer.email_address ? orderData.payer.email_address : 'Non spécifié';
+            let customerName = orderData.payer && orderData.payer.name ? (orderData.payer.name.given_name + ' ' + orderData.payer.name.surname) : 'Client PayPal';
 
-        function openPolicyModal() {
-            document.getElementById('policyModal').style.display = 'flex';
-        }
+            let templateParams = {
+                to_email: 'kawaelgato@gmail.com',
+                customer_name: customerName,
+                customer_email: customerEmail,
+                order_details: itemsSummary,
+                total_price: totalAmount + ' EUR',
+                order_id: orderData.id
+            };
 
-        function closePolicyModal() {
-            document.getElementById('policyModal').style.display = 'none';
+            // Envoi de l'e-mail via EmailJS (utilisation des identifiants par défaut du SDK initialisé)
+            emailjs.send('default_service', 'template_default', templateParams)
+                .then(function(response) {
+                    console.log('E-mail de commande envoyé avec succès !', response.status, response.text);
+                }, function(error) {
+                    console.log('Erreur lors de l\'envoi de l\'e-mail :', error);
+                });
         }
 
         function returnToHome() {
             document.getElementById('successModal').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function switchGender(sectionId, gender, event) {
-            const sectionEl = document.getElementById(sectionId);
-            const buttons = sectionEl.querySelectorAll('.gender-tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const cards = sectionEl.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                if (gender === 'all') {
-                    card.style.display = 'flex';
-                } else {
-                    const cardGender = card.getAttribute('data-gender');
-                    if (cardGender && cardGender.includes(gender)) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                }
-            });
-        }
-
-        function openModal(title, priceStr, images, desc) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('modalPrice').innerText = priceStr;
-            document.getElementById('modalDesc').innerText = desc;
-            
-            selectedModalSizeChoice = 'M';
-            const modalBox = document.getElementById('productModal');
-            modalBox.querySelectorAll('.size-btn').forEach(btn => {
-                if (btn.innerText === 'M') btn.classList.add('selected');
-                else btn.classList.remove('selected');
-            });
-
-            const mainImg = document.getElementById('modalMainImg');
-            const thumbContainer = document.getElementById('modalThumbnails');
-            thumbContainer.innerHTML = '';
-
-            if (images && images.length > 0) {
-                mainImg.src = images[0];
-                images.forEach((imgSrc, index) => {
-                    const thumb = document.createElement('img');
-                    thumb.src = imgSrc;
-                    thumb.className = 'thumb' + (index === 0 ? ' active' : '');
-                    thumb.onclick = function() {
-                        mainImg.src = imgSrc;
-                        document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-                        thumb.classList.add('active');
-                    };
-                    thumbContainer.appendChild(thumb);
-                });
-            }
-
-            modalBox.style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('productModal').style.display = 'none';
         }
     </script>
 </body>
