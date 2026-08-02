@@ -1008,7 +1008,7 @@
                 <li><a onclick="openPolicyModal()">Politique & CGV</a></li>
             </ul>
             <div class="nav-actions">
-                <!-- Bouton de Connexion Google (avec ton Client ID configuré) -->
+                <!-- Bouton de Connexion Google avec le nouveau Client ID mis à jour -->
                 <div id="google-signin-container">
                     <div id="g_id_onload"
                          data-client_id="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"
@@ -1976,10 +1976,8 @@
         <div class="confirm-container">
             <button class="close-confirm" onclick="closeConfirmModal()">&times;</button>
             <h3>Sélection de la taille</h3>
-            <p>Ajouter <strong id="confirmItemName" style="color: #fff;"></strong> à ton panier ?</p>
-            
+            <p>Choisis la taille pour <strong id="confirm-item-name"></strong> :</p>
             <div class="size-selector">
-                <label>Taille :</label>
                 <div class="size-options">
                     <button type="button" class="size-btn" onclick="selectPromptSize('S', this)">S</button>
                     <button type="button" class="size-btn selected" onclick="selectPromptSize('M', this)">M</button>
@@ -1987,93 +1985,92 @@
                     <button type="button" class="size-btn" onclick="selectPromptSize('XL', this)">XL</button>
                 </div>
             </div>
-
             <div class="confirm-actions">
                 <button class="btn-secondary" onclick="closeConfirmModal()">Annuler</button>
-                <button class="btn-primary" onclick="confirmAddToCart()">Confirmer</button>
+                <button class="btn-primary" onclick="confirmAddToCartFinal()">Confirmer</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Politique d'utilisation / CGV -->
-    <div id="policyModal" class="policy-modal">
-        <div class="policy-container">
-            <button class="close-policy" onclick="closePolicyModal()">&times;</button>
-            <h3>Politique d'utilisation & CGV</h3>
-            <div class="policy-body">
-                <h4>1. Objet</h4>
-                <p>Les présentes Conditions Générales de Vente régissent l'achat de vêtements et accessoires streetwear sur la boutique LEGA's Y2K.</p>
-                
-                <h4>2. Commandes & Paiements</h4>
-                <p>Tous les paiements s'effectuent de manière sécurisée via l'API PayPal intégrée sur le site et sont versés directement au compte marchand officiel (kawaelgato@gmail.com). Une fois le paiement validé, un récapitulatif détaillé est transmis à notre service.</p>
-                
-                <h4>3. Livraison & Expédition</h4>
-                <p>Les colis sont expédiés sous 48h ouvrées. L'adresse de livraison renseignée lors de la transaction PayPal fait foi pour l'acheminement de la commande.</p>
-                
-                <h4>4. Retours & Échanges</h4>
-                <p>Vous disposez d'un délai de 14 jours suivant la réception de votre article pour effectuer une demande de retour si le produit ne correspond pas à vos attentes, sous réserve qu'il soit non porté et dans son emballage d'origine.</p>
-            </div>
-            <button class="btn-primary" style="width: 100%;" onclick="closePolicyModal()">J'ai compris</button>
-        </div>
-    </div>
-
-    <!-- Tiroir du Panier -->
+    <!-- Panier Latéral (Drawer) -->
     <div id="cartDrawer" class="cart-drawer">
         <div class="cart-panel">
             <div class="cart-header">
                 <h3>Ton Panier (<span id="drawer-cart-count">0</span>)</h3>
                 <button class="close-drawer" onclick="toggleCart()">&times;</button>
             </div>
-            <div class="cart-items" id="cartItemsContainer">
-                <p style="color: var(--text-muted); text-align: center; font-size: 0.85rem; margin-top: 40px;">Ton panier est actuellement vide.</p>
+            <div class="cart-items" id="cart-items-container">
+                <!-- Les articles ajoutés s'afficheront ici -->
             </div>
             <div class="cart-footer">
                 <div class="cart-total">
                     <span>Total :</span>
-                    <span id="cartTotalPrice">€0.00</span>
+                    <span id="cart-total-price">€0.00</span>
                 </div>
-                <button class="btn-primary" style="width: 100%; text-align: center;" onclick="openCheckout()">Commander</button>
+                <button class="btn-primary" style="width:100%; border:none; cursor:pointer;" onclick="openCheckoutModal()">Commander</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal de Paiement PayPal -->
+    <!-- Modal de Paiement / Checkout -->
     <div id="checkoutModal" class="checkout-modal">
         <div class="checkout-container">
-            <button class="close-checkout" onclick="closeCheckout()">&times;</button>
-            <h3>Paiement Sécurisé PayPal</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; text-align: center;">Règlement direct sur votre compte PayPal (kawaelgato@gmail.com)</p>
-            <div id="paypal-button-container"></div>
+            <button class="close-checkout" onclick="closeCheckoutModal()">&times;</button>
+            <h3>Validation & Paiement</h3>
+            
+            <form id="checkout-form" onsubmit="handleCheckoutSubmit(event)" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+                <div>
+                    <label style="font-size:0.75rem; text-transform:uppercase; font-weight:800; color:var(--text-muted); display:block; margin-bottom:4px;">Nom complet</label>
+                    <input type="text" id="shipping-name" required placeholder="John Doe" style="width:100%; padding:10px; background:#181818; border:1px solid var(--card-border); color:#fff; border-radius:8px;">
+                </div>
+                <div>
+                    <label style="font-size:0.75rem; text-transform:uppercase; font-weight:800; color:var(--text-muted); display:block; margin-bottom:4px;">Adresse e-mail (pour le suivi)</label>
+                    <input type="email" id="shipping-email" required placeholder="john@example.com" style="width:100%; padding:10px; background:#181818; border:1px solid var(--card-border); color:#fff; border-radius:8px;">
+                </div>
+                <div>
+                    <label style="font-size:0.75rem; text-transform:uppercase; font-weight:800; color:var(--text-muted); display:block; margin-bottom:4px;">Adresse postale</label>
+                    <textarea id="shipping-address" required placeholder="12 rue de la Paix, 75001 Paris" rows="2" style="width:100%; padding:10px; background:#181818; border:1px solid var(--card-border); color:#fff; border-radius:8px; resize:none;"></textarea>
+                </div>
+            </form>
+
+            <div style="border-top:1px solid var(--card-border); padding-top:15px;">
+                <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px; text-align:center; text-transform:uppercase;">Paiement sécurisé via PayPal</p>
+                <div id="paypal-button-container"></div>
+            </div>
         </div>
     </div>
 
-    <!-- Écran de Succès -->
+    <!-- Modal de Succès Commande -->
     <div id="successModal" class="success-modal">
         <div class="success-container">
-            <h2>Paiement réussi avec succès ! ⚡</h2>
-            <p>Merci pour votre commande sur LEGA's Y2K. Votre paiement PayPal a bien été validé vers <strong>kawaelgato@gmail.com</strong>. <br><br><strong style="color: #00ff66; font-size: 1rem;">La marchandise arrive d'ici 2 à 3 semaines.</strong></p>
-            <button class="btn-primary" style="width: 100%; text-align: center;" onclick="returnToHome()">Retourner à la page d'accueil</button>
+            <h2>Commande Validée ! ⚡</h2>
+            <p>Merci pour ton achat sur LEGA's Y2K. Un e-mail de confirmation détaillé vient de t'être envoyé.</p>
+            <button class="btn-primary" onclick="closeSuccessModal()" style="border:none; cursor:pointer;">Retourner à la boutique</button>
         </div>
     </div>
 
-    <div class="features">
-        <div class="features-grid">
-            <div class="feature-item">
-                <h3>Fast Shipping</h3>
-                <p>Expédition ultra rapide pour recevoir tes sapes sans stress</p>
+    <!-- Modal Politique & CGV -->
+    <div id="policyModal" class="policy-modal">
+        <div class="policy-container">
+            <button class="close-policy" onclick="closePolicyModal()">&times;</button>
+            <h3>Politique & CGV</h3>
+            <div class="policy-body">
+                <h4>1. Introduction</h4>
+                <p>Bienvenue sur LEGA's Y2K. En accédant à notre site et en effectuant des achats, vous acceptez nos conditions générales de vente et d'utilisation.</p>
+                
+                <h4>2. Commandes & Produits</h4>
+                <p>Nos articles streetwear et Y2K sont sélectionnés avec exigence. Les descriptions et visuels reflètent au mieux la réalité des produits proposés.</p>
+
+                <h4>3. Livraison</h4>
+                <p>La livraison standard est offerte sur l'ensemble de notre boutique. Les délais de traitement et d'acheminement sont indiqués lors de la commande.</p>
+
+                <h4>4. Retours & Remboursements</h4>
+                <p>Vous disposez d'un délai de 14 jours après réception pour effectuer une demande de retour pour tout article non porté et dans son emballage d'origine.</p>
+
+                <h4>5. Données Personnelles</h4>
+                <p>Les informations collectées lors de la connexion ou du passage de commande servent exclusivement à la gestion de votre expérience et au suivi de vos colis.</p>
             </div>
-            <div class="feature-item">
-                <h3>Secure Checkout</h3>
-                <p>Paiements 100% sécurisés et cryptés</p>
-            </div>
-            <div class="feature-item">
-                <h3>Community Approved</h3>
-                <p>Validé par des milliers de créateurs sur les réseaux</p>
-            </div>
-            <div class="feature-item">
-                <h3>Support 24/7</h3>
-                <p>Une équipe dispo pour répondre à tes questions</p>
-            </div>
+            <button class="btn-primary" onclick="closePolicyModal()" style="border:none; cursor:pointer; width:100%;">J'ai compris</button>
         </div>
     </div>
 
@@ -2081,7 +2078,7 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>LEGA's Y2K</h4>
-                <p style="font-size: 0.85rem; margin-bottom: 15px; color: var(--text-muted);">Le shop de référence pour tes fits cyber et streetwear.</p>
+                <p style="font-size:0.85rem; color:var(--text-muted);">Le repère ultime du streetwear moderne et des archives années 2000.</p>
             </div>
             <div class="footer-col">
                 <h4>Navigation</h4>
@@ -2089,101 +2086,61 @@
                     <li><a href="#hauts">Hauts & Zips</a></li>
                     <li><a href="#tshirts">T-Shirts</a></li>
                     <li><a href="#bas">Bas & Baggy</a></li>
+                    <li><a onclick="openPolicyModal()">Politique & CGV</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Aide & Legal</h4>
+                <h4>Contact & Support</h4>
                 <ul>
-                    <li><a onclick="openPolicyModal()">Politique d'utilisation</a></li>
-                    <li><a onclick="openPolicyModal()">Retours & Échanges</a></li>
-                    <li><a onclick="openPolicyModal()">Conditions Générales</a></li>
+                    <li><a href="mailto:kawaelgato@gmail.com">kawaelgato@gmail.com</a></li>
+                    <li><a onclick="openPolicyModal()">FAQ & Retours</a></li>
                 </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Contact</h4>
-                <p style="font-size: 0.85rem; margin-bottom: 8px;">kawaelgato@gmail.com</p>
-                <p style="font-size: 0.8rem; color: #555;">DM ouvert 7j/7</p>
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2026 LEGA's Y2K — Tous droits réservés.
+            &copy; 2026 LEGA's Y2K. Tous droits réservés.
         </div>
     </footer>
 
+    <!-- Scripts JavaScript du site -->
     <script>
-        // --- GESTION DU PANIER & PERSISTANCE (localStorage) ---
-        let cart = JSON.parse(localStorage.getItem('legas_y2k_cart')) || [];
+        // Gestion du carrousel d'images automatique au survol
+        document.querySelectorAll('.product-image-container').forEach(container => {
+            const img = container.querySelector('.slider-img');
+            const imagesJson = img.getAttribute('data-images');
+            if(!imagesJson) return;
+            const images = JSON.parse(imagesJson);
+            if(images.length <= 1) return;
 
-        let pendingItemName = '';
-        let pendingItemPrice = 0;
-        let selectedSizePrompt = 'M';
-        let selectedModalSizeChoice = 'M';
+            let currentIndex = 0;
+            let interval = null;
 
-        function saveCart() {
-            localStorage.setItem('legas_y2k_cart', JSON.stringify(cart));
-        }
+            container.addEventListener('mouseenter', () => {
+                interval = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % images.length;
+                    img.src = images[currentIndex];
+                }, 1200);
+            });
 
-        // --- GESTION CONNEXION GOOGLE ---
-        function parseJwt(token) {
-            try {
-                var base64Url = token.split('.')[1];
-                var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                }).join(''));
-                return JSON.parse(jsonPayload);
-            } catch (e) {
-                return null;
-            }
-        }
-
-        function handleGoogleSignIn(response) {
-            const responsePayload = parseJwt(response.credential);
-            if (responsePayload) {
-                const userName = responsePayload.name;
-                const userEmail = responsePayload.email;
-                
-                localStorage.setItem('google_user', JSON.stringify({ name: userName, email: userEmail }));
-                updateUserInterface(userName);
-            }
-        }
-
-        function updateUserInterface(name) {
-            document.getElementById('google-signin-container').style.display = 'none';
-            const profileDisplay = document.getElementById('user-profile-display');
-            profileDisplay.style.display = 'flex';
-            document.getElementById('user-name-label').textContent = name;
-        }
-
-        function logoutGoogle() {
-            localStorage.removeItem('google_user');
-            document.getElementById('user-profile-display').style.display = 'none';
-            document.getElementById('google-signin-container').style.display = 'block';
-        }
-
-        // Vérification de session au chargement
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedUser = localStorage.getItem('google_user');
-            if (savedUser) {
-                const userObj = JSON.parse(savedUser);
-                updateUserInterface(userObj.name);
-            }
-            updateCartUI();
+            container.addEventListener('mouseleave', () => {
+                clearInterval(interval);
+                currentIndex = 0;
+                img.src = images[0];
+            });
         });
 
-        // --- GESTION DES FILTRES DE GENRE ---
-        function switchGender(sectionId, gender, event) {
-            const section = document.getElementById('grid-' + sectionId);
+        // Filtrage par genre/onglets
+        function switchGender(category, gender, event) {
+            const section = document.getElementById('grid-' + category);
             const cards = section.querySelectorAll('.product-card');
             
-            // Gestion des boutons actifs
-            const tabsContainer = event.target.parentElement;
-            tabsContainer.querySelectorAll('.gender-tab-btn').forEach(btn => btn.classList.remove('active'));
+            const tabs = event.target.parentElement.querySelectorAll('.gender-tab-btn');
+            tabs.forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
 
             cards.forEach(card => {
                 const cardGender = card.getAttribute('data-gender');
-                if (gender === 'all' || cardGender.includes(gender)) {
+                if(gender === 'all' || cardGender.includes(gender)) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
@@ -2191,57 +2148,136 @@
             });
         }
 
-        // --- CARROUSEL / SLIDER AUTOMATIQUE DES IMAGES PRODUITS ---
-        document.querySelectorAll('.product-image-container').forEach(container => {
-            const img = container.querySelector('.slider-img');
-            const rawImages = img.getAttribute('data-images');
-            if (rawImages) {
-                try {
-                    const images = JSON.parse(rawImages);
-                    if (images.length > 1) {
-                        // Création des points indicateurs
-                        const dotsContainer = document.createElement('div');
-                        dotsContainer.className = 'carousel-dots';
-                        images.forEach((_, idx) => {
-                            const dot = document.createElement('div');
-                            dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
-                            dotsContainer.appendChild(dot);
-                        });
-                        container.appendChild(dotsContainer);
+        // Gestion du Panier
+        let cart = [];
+        let selectedSizeModal = 'M';
+        let selectedPromptSizeValue = 'M';
+        let currentPromptProduct = null;
+        let currentModalProduct = null;
 
-                        let currentIndex = 0;
-                        setInterval(() => {
-                            currentIndex = (currentIndex + 1) % images.length;
-                            img.style.opacity = 0;
-                            setTimeout(() => {
-                                img.src = images[currentIndex];
-                                img.style.opacity = 1;
-                            }, 250);
-
-                            // MAJ des points
-                            const dots = dotsContainer.querySelectorAll('.carousel-dot');
-                            dots.forEach((dot, idx) => {
-                                dot.classList.toggle('active', idx === currentIndex);
-                            });
-                        }, 3000);
-                    }
-                } catch(e) {}
+        function toggleCart() {
+            const drawer = document.getElementById('cartDrawer');
+            if(drawer.style.display === 'flex') {
+                drawer.style.display = 'none';
+            } else {
+                drawer.style.display = 'flex';
+                updateCartUI();
             }
-        });
+        }
 
-        // --- MODAL DETAILS PRODUIT ---
-        function openModal(title, price, images, desc) {
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalPrice').textContent = price;
-            document.getElementById('modalDesc').textContent = desc;
-            document.getElementById('modalMainImg').src = images[0];
+        function openNotificationCart() {
+            toggleCart();
+        }
+
+        function showNotification() {
+            const notif = document.getElementById('cart-notification');
+            notif.classList.add('show');
+            setTimeout(() => {
+                notif.classList.remove('show');
+            }, 3000);
+        }
+
+        function promptAddToCart(name, price) {
+            currentPromptProduct = { name, price };
+            selectedPromptSizeValue = 'M';
+            document.getElementById('confirm-item-name').innerText = name;
             
+            // Reset boutons tailles modal prompt
+            const modalBtns = document.querySelectorAll('#confirmModal .size-btn');
+            modalBtns.forEach(btn => {
+                if(btn.innerText === 'M') btn.classList.add('selected');
+                else btn.classList.remove('selected');
+            });
+
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+        }
+
+        function selectPromptSize(size, btn) {
+            selectedPromptSizeValue = size;
+            const group = btn.parentElement.querySelectorAll('.size-btn');
+            group.forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        function confirmAddToCartFinal() {
+            if(!currentPromptProduct) return;
+            addToCart(currentPromptProduct.name, currentPromptProduct.price, selectedPromptSizeValue);
+            closeConfirmModal();
+        }
+
+        function addToCart(name, price, size) {
+            const existingItem = cart.find(item => item.name === name && item.size === size);
+            if(existingItem) {
+                existingItem.qty += 1;
+            } else {
+                cart.push({ name, price, size, qty: 1 });
+            }
+            updateCartCount();
+            showNotification();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            updateCartUI();
+        }
+
+        function updateCartCount() {
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-count').innerText = totalCount;
+            document.getElementById('drawer-cart-count').innerText = totalCount;
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+
+            if(cart.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted); text-align:center; font-size:0.85rem; margin-top:40px;">Ton panier est vide.</p>';
+                document.getElementById('cart-total-price').innerText = '€0.00';
+                return;
+            }
+
+            let totalPrice = 0;
+            cart.forEach((item, index) => {
+                totalPrice += item.price * item.qty;
+                const itemEl = document.createElement('div');
+                itemEl.className = 'cart-item';
+                itemEl.innerHTML = `
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p>Taille : <strong>${item.size}</strong> | Qté : ${item.qty}</p>
+                        <div class="cart-price-tag">€${(item.price * item.qty).toFixed(2)}</div>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeFromCart(${index})">&times;</button>
+                `;
+                container.appendChild(itemEl);
+            });
+
+            document.getElementById('cart-total-price').innerText = '€' + totalPrice.toFixed(2);
+        }
+
+        // Modal Produit détail
+        function openModal(title, priceStr, images, desc) {
+            const price = parseFloat(priceStr.replace('€', ''));
+            currentModalProduct = { name: title, price, images, desc };
+            
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalPrice').innerText = priceStr;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalMainImg').src = images[0];
+
+            // Thumbnails
             const thumbContainer = document.getElementById('modalThumbnails');
             thumbContainer.innerHTML = '';
-            images.forEach((imgSrc, index) => {
+            images.forEach((imgSrc, idx) => {
                 const thumb = document.createElement('img');
                 thumb.src = imgSrc;
-                thumb.className = 'thumb' + (index === 0 ? ' active' : '');
+                thumb.className = 'thumb' + (idx === 0 ? ' active' : '');
                 thumb.onclick = () => {
                     document.getElementById('modalMainImg').src = imgSrc;
                     thumbContainer.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
@@ -2250,9 +2286,10 @@
                 thumbContainer.appendChild(thumb);
             });
 
-            selectedModalSizeChoice = 'M';
-            document.querySelectorAll('#productModal .size-btn').forEach(b => {
-                b.classList.toggle('selected', b.textContent === 'M');
+            selectedSizeModal = 'M';
+            document.querySelectorAll('#productModal .size-btn').forEach(btn => {
+                if(btn.innerText === 'M') btn.classList.add('selected');
+                else btn.classList.remove('selected');
             });
 
             document.getElementById('productModal').style.display = 'flex';
@@ -2263,113 +2300,18 @@
         }
 
         function selectModalSize(size, btn) {
-            selectedModalSizeChoice = size;
+            selectedSizeModal = size;
             btn.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
         }
 
         function addModalToCart() {
-            const title = document.getElementById('modalTitle').textContent;
-            const priceText = document.getElementById('modalPrice').textContent;
-            const price = parseFloat(priceText.replace('€', ''));
-            
-            addToCartAction(title, price, selectedModalSizeChoice);
+            if(!currentModalProduct) return;
+            addToCart(currentModalProduct.name, currentModalProduct.price, selectedSizeModal);
             closeModal();
         }
 
-        // --- PROMPT AJOUT RAPIDE (GRILLE) ---
-        function promptAddToCart(name, price) {
-            pendingItemName = name;
-            pendingItemPrice = price;
-            selectedSizePrompt = 'M';
-            
-            document.getElementById('confirmItemName').textContent = name;
-            document.querySelectorAll('#confirmModal .size-btn').forEach(b => {
-                b.classList.toggle('selected', b.textContent === 'M');
-            });
-            document.getElementById('confirmModal').style.display = 'flex';
-        }
-
-        function closeConfirmModal() {
-            document.getElementById('confirmModal').style.display = 'none';
-        }
-
-        function selectPromptSize(size, btn) {
-            selectedSizePrompt = size;
-            btn.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-        }
-
-        function confirmAddToCart() {
-            addToCartAction(pendingItemName, pendingItemPrice, selectedSizePrompt);
-            closeConfirmModal();
-        }
-
-        function addToCartAction(name, price, size) {
-            cart.push({ name, price, size });
-            saveCart();
-            updateCartUI();
-            showNotification();
-        }
-
-        // --- NOTIFICATION FLOTTANTE ---
-        function showNotification() {
-            const notif = document.getElementById('cart-notification');
-            notif.classList.add('show');
-            setTimeout(() => {
-                notif.classList.remove('show');
-            }, 3500);
-        }
-
-        function openNotificationCart() {
-            toggleCart();
-        }
-
-        // --- TIROIR PANIER ---
-        function toggleCart() {
-            const drawer = document.getElementById('cartDrawer');
-            drawer.style.display = drawer.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        function updateCartUI() {
-            const countElements = document.querySelectorAll('#cart-count, #drawer-cart-count');
-            const totalCount = cart.length;
-            countElements.forEach(el => el.textContent = totalCount);
-
-            const container = document.getElementById('cartItemsContainer');
-            if (cart.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); text-align: center; font-size: 0.85rem; margin-top: 40px;">Ton panier est actuellement vide.</p>';
-                document.getElementById('cartTotalPrice').textContent = '€0.00';
-                return;
-            }
-
-            container.innerHTML = '';
-            let total = 0;
-            cart.forEach((item, index) => {
-                total += item.price;
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'cart-item';
-                itemDiv.innerHTML = `
-                    <div class="cart-item-info">
-                        <h4>${item.name}</h4>
-                        <p>Taille : <strong>${item.size}</strong></p>
-                        <span class="cart-price-tag">€${item.price.toFixed(2)}</span>
-                    </div>
-                    <button class="cart-item-remove" onclick="removeFromCart(${index})">&times;</button>
-                `;
-                container.appendChild(itemDiv);
-            });
-
-            document.getElementById('cartTotalPrice').textContent = '€' + total.toFixed(2);
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            saveCart();
-            updateCartUI();
-        }
-
-        // --- GESTION POLITIQUE / CGV ---
+        // Modal Politique
         function openPolicyModal() {
             document.getElementById('policyModal').style.display = 'flex';
         }
@@ -2377,90 +2319,124 @@
             document.getElementById('policyModal').style.display = 'none';
         }
 
-        // --- PAIEMENT PAYPAL & EMAILJS ---
+        // Checkout & PayPal
         let paypalInitialized = false;
 
-        function openCheckout() {
-            if (cart.length === 0) {
-                alert("Ton panier est vide.");
+        function openCheckoutModal() {
+            if(cart.length === 0) {
+                alert("Ton panier est vide !");
                 return;
             }
-            toggleCart(); // Fermer le tiroir panier
+            toggleCart(); // Fermer le drawer
             document.getElementById('checkoutModal').style.display = 'flex';
 
-            if (!paypalInitialized) {
+            if(!paypalInitialized) {
                 initPayPalButton();
                 paypalInitialized = true;
             }
         }
 
-        function closeCheckout() {
+        function closeCheckoutModal() {
             document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        function handleCheckoutSubmit(e) {
+            e.preventDefault();
         }
 
         function initPayPalButton() {
             paypal.Buttons({
                 createOrder: function(data, actions) {
-                    let total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+                    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0).toFixed(2);
                     return actions.order.create({
                         purchase_units: [{
                             amount: {
-                                value: total
-                            },
-                            payee: {
-                                email_address: "kawaelgato@gmail.com"
+                                value: totalPrice
                             }
                         }]
                     });
                 },
                 onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(orderData) {
-                        // Paiement validé avec succès
-                        closeCheckout();
-                        sendOrderEmail(orderData);
-                        
-                        // Vider le panier
-                        cart = [];
-                        saveCart();
-                        updateCartUI();
-
-                        // Afficher l'écran de succès
-                        document.getElementById('successModal').style.display = 'flex';
+                    return actions.order.capture().then(function(details) {
+                        sendEmailNotification(details);
                     });
                 },
                 onError: function(err) {
-                    alert("Une erreur est survenue lors du paiement PayPal. Veuillez réessayer.");
+                    console.error('Erreur PayPal :', err);
+                    alert("Une erreur est survenue lors du paiement PayPal.");
                 }
             }).render('#paypal-button-container');
         }
 
-        function sendOrderEmail(orderData) {
-            let itemsSummary = cart.map(item => `- ${item.name} (Taille: ${item.size}) : €${item.price.toFixed(2)}`).join('\n');
-            let totalAmount = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
-            let customerEmail = orderData.payer && orderData.payer.email_address ? orderData.payer.email_address : 'Non spécifié';
-            let customerName = orderData.payer && orderData.payer.name ? (orderData.payer.name.given_name + ' ' + orderData.payer.name.surname) : 'Client PayPal';
+        function sendEmailNotification(paypalDetails) {
+            const customerName = document.getElementById('shipping-name').value || paypalDetails.payer.name.given_name;
+            const customerEmail = document.getElementById('shipping-email').value || paypalDetails.payer.email_address;
+            const customerAddress = document.getElementById('shipping-address').value || 'Non renseignée';
+            
+            const cartSummary = cart.map(item => `- ${item.name} (Taille: ${item.size}, Qté: ${item.qty}) : €${(item.price * item.qty).toFixed(2)}`).join('\n');
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0).toFixed(2);
 
-            let templateParams = {
-                to_email: 'kawaelgato@gmail.com',
+            const templateParams = {
+                to_email: "kawaelgato@gmail.com",
                 customer_name: customerName,
                 customer_email: customerEmail,
-                order_details: itemsSummary,
-                total_price: totalAmount + ' EUR',
-                order_id: orderData.id
+                customer_address: customerAddress,
+                order_details: cartSummary,
+                total_price: totalAmount + " EUR"
             };
 
-            // Envoi de l'e-mail via EmailJS (utilisation des identifiants par défaut du SDK initialisé)
+            // Envoi de l'e-mail via EmailJS (Service & Template ID par défaut ou configurés)
             emailjs.send('default_service', 'template_default', templateParams)
                 .then(function(response) {
-                    console.log('E-mail de commande envoyé avec succès !', response.status, response.text);
+                    console.log('Email envoyé avec succès !', response.status, response.text);
                 }, function(error) {
-                    console.log('Erreur lors de l\'envoi de l\'e-mail :', error);
+                    console.log('Erreur d\'envoi email :', error);
                 });
+
+            closeCheckoutModal();
+            cart = [];
+            updateCartCount();
+            document.getElementById('successModal').style.display = 'flex';
         }
 
-        function returnToHome() {
+        function closeSuccessModal() {
             document.getElementById('successModal').style.display = 'none';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Gestion de la Connexion Google (Google Identity Services)
+        function handleGoogleSignIn(response) {
+            // Décodage du JWT renvoyé par Google pour récupérer les infos utilisateur
+            const responsePayload = parseJwt(response.credential);
+            
+            const userName = responsePayload.name;
+            
+            // Masquer le bouton Google et afficher le profil connecté
+            document.getElementById('google-signin-container').style.display = 'none';
+            const profileDisplay = document.getElementById('user-profile-display');
+            profileDisplay.style.display = 'flex';
+            document.getElementById('user-name-label').innerText = userName;
+        }
+
+        function parseJwt(token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch(e) {
+                return { name: "Client" };
+            }
+        }
+
+        function logoutGoogle() {
+            // Réinitialiser l'affichage de connexion
+            document.getElementById('user-profile-display').style.display = 'none';
+            document.getElementById('google-signin-container').style.display = 'block';
+            if(window.google && google.accounts) {
+                google.accounts.id.disableAutoSelect();
+            }
         }
     </script>
 </body>
